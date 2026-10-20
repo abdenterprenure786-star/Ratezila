@@ -1,0 +1,6 @@
+{
+  "name": "RateZilla - Pakistan Market Rates & Utility Portal",
+  "description": "Pakistan's Ultimate API-Driven Live Market Rates, Gold Simulator & Utility Portal featuring Sarafa market rates, OGRA fuel prices, FBR tax calculators, and utility estimators.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
