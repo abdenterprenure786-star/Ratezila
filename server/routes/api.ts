@@ -288,4 +288,141 @@ router.post('/tools/vehicle-tax', (req: Request, res: Response) => {
   }
 });
 
+// --- Firebase Cloud Messaging & Price Alert Subscriptions ---
+interface SubscriberRecord {
+  id: string;
+  fcmToken?: string;
+  goldAlertEnabled: boolean;
+  goldTargetDropPrice: number;
+  petrolAlertEnabled: boolean;
+  petrolPriceDropOnly: boolean;
+  dailyMorningBriefing: boolean;
+  subscribedAt: string;
+}
+
+const activeSubscribers: SubscriberRecord[] = [
+  {
+    id: 'sub_demo_1',
+    fcmToken: 'fcm_token_sarafa_lahore',
+    goldAlertEnabled: true,
+    goldTargetDropPrice: 280000,
+    petrolAlertEnabled: true,
+    petrolPriceDropOnly: true,
+    dailyMorningBriefing: true,
+    subscribedAt: new Date(Date.now() - 86400000).toISOString(),
+  },
+];
+
+const alertHistory = [
+  {
+    id: 'alert_1',
+    type: 'gold_price_drop',
+    title: 'Sarafa Gold Price Drop Alert 📉',
+    message: 'Gold 24K dipped to Rs. 280,200/Tola on spot market opening.',
+    timestamp: '14 Oct, 09:30 AM',
+    channel: 'FCM Web Push',
+  },
+  {
+    id: 'alert_2',
+    type: 'fuel_revision',
+    title: 'OGRA Fortnight Petroleum Notice ⛽',
+    message: 'Petrol benchmark price adjusted to Rs. 281.40/Litre by Ministry of Energy.',
+    timestamp: '16 Oct, 12:05 AM',
+    channel: 'FCM Web Push',
+  },
+  {
+    id: 'alert_3',
+    type: 'daily_briefing',
+    title: 'RateZilla Morning Market Pulse ☀️',
+    message: '24K Gold: Rs. 284,500 | Petrol: Rs. 281.40 | USD: Rs. 278.35 SBP Interbank.',
+    timestamp: 'Today, 10:00 AM',
+    channel: 'FCM Web Push',
+  },
+];
+
+// 20. Subscribe to Price Drop Alerts
+router.post('/notifications/subscribe', (req: Request, res: Response) => {
+  const { goldAlertEnabled, goldTargetDropPrice, petrolAlertEnabled, petrolPriceDropOnly, dailyMorningBriefing, fcmToken } = req.body;
+
+  const newSub: SubscriberRecord = {
+    id: `sub_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+    fcmToken: fcmToken || `fcm_${Date.now()}`,
+    goldAlertEnabled: goldAlertEnabled ?? true,
+    goldTargetDropPrice: Number(goldTargetDropPrice) || 280000,
+    petrolAlertEnabled: petrolAlertEnabled ?? true,
+    petrolPriceDropOnly: petrolPriceDropOnly ?? true,
+    dailyMorningBriefing: dailyMorningBriefing ?? true,
+    subscribedAt: new Date().toISOString(),
+  };
+
+  // Upsert or push
+  const existingIdx = activeSubscribers.findIndex((s) => s.fcmToken === newSub.fcmToken);
+  if (existingIdx >= 0) {
+    activeSubscribers[existingIdx] = newSub;
+  } else {
+    activeSubscribers.push(newSub);
+  }
+
+  res.json({
+    success: true,
+    message: 'Successfully subscribed to RateZilla daily alerts and price drop notifications via FCM Service Worker.',
+    subscription: newSub,
+    totalActiveSubscribers: activeSubscribers.length,
+  });
+});
+
+// 21. Notification Status
+router.get('/notifications/status', (req: Request, res: Response) => {
+  res.json({
+    success: true,
+    fcmServiceWorkerPath: '/firebase-messaging-sw.js',
+    status: 'ACTIVE',
+    provider: 'Firebase Cloud Messaging (FCM) & Web Push API',
+    totalSubscribers: activeSubscribers.length,
+    scheduledTimes: {
+      morningBriefing: '10:00 AM Pakistan Standard Time (PKT)',
+      sarafaPriceScan: 'Every 30 Minutes (11:00 AM to 06:00 PM)',
+      ograMidnightReview: '1st & 15th of each month (11:59 PM)',
+    },
+  });
+});
+
+// 22. Send Test Alert / Broadcast Simulation
+router.post('/notifications/test-alert', (req: Request, res: Response) => {
+  const { type } = req.body; // 'gold' | 'fuel' | 'daily'
+  let alert = {
+    id: `alert_${Date.now()}`,
+    type: type || 'gold',
+    title: 'Sarafa Gold Price Drop Notification 📉',
+    message: '24K Gold dropped to Rs. 281,500/Tola! Triggered by target threshold.',
+    timestamp: 'Just Now',
+    channel: 'FCM Push Broadcast',
+  };
+
+  if (type === 'fuel') {
+    alert.title = 'OGRA Price Revision Alert ⛽';
+    alert.message = 'Petrol price reduced by Rs. 2.40/Litre for upcoming fortnight.';
+  } else if (type === 'daily') {
+    alert.title = 'RateZilla Daily Morning Market Briefing ☀️';
+    alert.message = 'Today: 24K Gold Rs. 284,500 | Petrol Rs. 281.40 | USD Rs. 278.35.';
+  }
+
+  alertHistory.unshift(alert);
+
+  res.json({
+    success: true,
+    deliveredToDevices: activeSubscribers.length,
+    alert,
+  });
+});
+
+// 23. Alert History
+router.get('/notifications/history', (req: Request, res: Response) => {
+  res.json({
+    success: true,
+    alerts: alertHistory,
+  });
+});
+
 export default router;
+

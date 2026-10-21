@@ -14,8 +14,72 @@
 
   body {
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* Dark mode default */
+  html.dark body {
     background-color: #050d08;
     color: #e2e8f0;
+  }
+
+  /* Light mode */
+  html.light body {
+    background-color: #f4f7f5;
+    color: #0f172a;
+  }
+
+  html.light .bg-\[\#08170e\],
+  html.light .bg-\[\#07170d\],
+  html.light .bg-\[\#06140b\],
+  html.light .bg-\[\#0a1710\] {
+    background-color: #ffffff !important;
+    border-color: rgba(0, 64, 26, 0.15) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  }
+
+  html.light .bg-\[\#050d08\],
+  html.light .bg-\[\#030905\],
+  html.light .bg-\[\#040e08\] {
+    background-color: #edf2ee !important;
+    border-color: rgba(0, 64, 26, 0.15) !important;
+  }
+
+  html.light header {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-color: rgba(0, 64, 26, 0.15) !important;
+  }
+
+  html.light header a,
+  html.light header nav button {
+    color: #00401a !important;
+  }
+
+  html.light header nav button:hover {
+    color: #b48200 !important;
+  }
+
+  html.light h1,
+  html.light h2,
+  html.light h3,
+  html.light h4 {
+    color: #003314 !important;
+  }
+
+  html.light .text-slate-400 {
+    color: #475569 !important;
+  }
+
+  html.light .text-slate-300 {
+    color: #334155 !important;
+  }
+
+  html.light .text-slate-200 {
+    color: #1e293b !important;
+  }
+
+  html.light .text-white {
+    color: #0f172a !important;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -23,7 +87,8 @@
   }
 
   .font-urdu {
-    font-family: 'Noto Nastaliq Urdu', serif;
+    font-family: 'Noto Nastaliq Urdu', -apple-system, BlinkMacSystemFont, serif;
+    direction: rtl;
   }
 
   .font-mono, .tabular-nums {
@@ -39,6 +104,9 @@
 }
 ::-webkit-scrollbar-track {
   background: #050d08;
+}
+html.light ::-webkit-scrollbar-track {
+  background: #edf2ee;
 }
 ::-webkit-scrollbar-thumb {
   background: #153321;

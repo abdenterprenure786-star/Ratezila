@@ -19,6 +19,9 @@ async function startServer() {
   // API Routes
   app.use('/api', apiRouter);
 
+  // Serve public static assets (Service Worker, Manifest, Icons, Sitemap)
+  app.use(express.static(path.resolve(__dirname, 'public')));
+
   // Health check endpoint
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', name: 'RateZilla API Engine', uptime: process.uptime() });

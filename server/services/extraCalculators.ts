@@ -31,7 +31,7 @@ export function calculateSolarSystem(input: SolarCalcInput) {
   const areaSqFt = Math.round(actualSystemKw * 72);
 
   // Cost breakdowns (PKR)
-  const panelPricePerWatt = 32.5; // Average market rate PKR/Watt
+  const panelPricePerWatt = 41.5; // Benchmark market rate PKR/Watt (40.0 - 45.0/W)
   const panelsCost = Math.round(actualSystemWatts * panelPricePerWatt);
 
   // Inverter Cost

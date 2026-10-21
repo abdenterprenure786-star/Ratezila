@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="112" fill="#050d08"/>
+  <rect x="24" y="24" width="464" height="464" rx="96" fill="#08170e" stroke="#00401a" stroke-width="8"/>
+  <circle cx="256" cy="256" r="180" fill="#002b11" stroke="#ffd700" stroke-width="6"/>
+  <!-- Gold Bullion Stylized Emblem -->
+  <path d="M 170 330 L 220 180 L 300 180 Q 350 180 350 230 Q 350 270 300 280 L 350 330 L 300 330 L 260 280 L 220 280 L 205 330 Z M 225 240 L 285 240 Q 310 240 310 225 Q 310 210 285 210 L 235 210 Z" fill="#ffd700"/>
+  <!-- Sparkle Accent -->
+  <path d="M 360 140 Q 380 140 380 120 Q 380 140 400 140 Q 380 140 380 160 Q 380 140 360 140 Z" fill="#ffffff"/>
+</svg>

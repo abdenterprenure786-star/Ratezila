@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Fuel, Navigation, Car, Gauge, Users, ArrowRight, Info, CheckCircle2 } from 'lucide-react';
+import { Fuel, Navigation, Car, Gauge, Users, ArrowRight, Info, CheckCircle2, Sparkles } from 'lucide-react';
 import { FuelRateItem } from '../types/market.js';
 import { calculateFuelTrip, vehicleMileageProfiles, popularRoutes } from '../services/clientCalculators.js';
+import { ShareRatesButton } from './ShareRatesButton.js';
 
 interface FuelSectionProps {
   fuelRates: FuelRateItem[];
@@ -107,6 +108,21 @@ export const FuelSection: React.FC<FuelSectionProps> = ({ fuelRates }) => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Share Fuel Rates Toolbar */}
+      <div className="bg-[#051108] border border-[#00401a] p-4 rounded-xl flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-xs text-slate-300">
+          <Sparkles className="w-4 h-4 text-[#ffd700]" />
+          <span className="font-semibold text-white">Share Today&apos;s OGRA Fuel &amp; Gas Benchmarks:</span>
+          <span className="hidden sm:inline text-slate-400">
+            Send Petrol, Diesel, HOBC, and LPG cylinders rates to WhatsApp
+          </span>
+        </div>
+        <ShareRatesButton
+          petrolPrice={fuelRates[0]?.currentPrice}
+          dieselPrice={fuelRates[1]?.currentPrice}
+        />
       </div>
 
       {/* Fuel Trip Cost & Motorway Toll Calculator */}

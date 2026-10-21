@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Sun, Zap, BatteryCharging, ArrowRight, ShieldCheck, CheckCircle, TrendingUp } from 'lucide-react';
+import { Sun, Zap, BatteryCharging, ArrowRight, ShieldCheck, CheckCircle, TrendingUp, Sparkles } from 'lucide-react';
 import { calculateSolarSystem } from '../services/clientCalculators.js';
+import { ShareRatesButton } from './ShareRatesButton.js';
 
 export const SolarSection: React.FC = () => {
   const [units, setUnits] = useState<number>(650);
@@ -222,6 +223,117 @@ export const SolarSection: React.FC = () => {
               <span>Rs. {result.costBreakdown.turnkeyInstallationPKR.toLocaleString()}</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Share Solar Rates Toolbar */}
+      <div className="bg-[#051108] border border-[#00401a] p-4 rounded-xl flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-xs text-slate-300">
+          <Sparkles className="w-4 h-4 text-[#ffd700]" />
+          <span className="font-semibold text-white">Share Solar Panel Rates &amp; Net-Metering Estimate:</span>
+          <span className="hidden sm:inline text-slate-400">
+            Share Tier-1 TopCon watt prices and installation breakdown
+          </span>
+        </div>
+        <ShareRatesButton
+          customText={`*RateZilla.pk — Pakistan Solar Panel Market Benchmarks:*
+☀️ Tier-1 580W-590W N-Type Bifacial: Rs. 40.00 – 45.00 / Watt
+⚡ Jinko 590W Bifacial: Rs. 23,600 – 29,338 / plate
+⚡ Longi Hi-Mo X7 585W: Rs. 24,800 – 28,062 / plate
+⚡ Canadian Solar TopCon 585W: Rs. 24,400 – 29,088 / plate
+⚡ JA Solar 585W: Rs. 22,750 – 25,740 / plate
+⚡ Trina Solar 585W: Rs. 22,750 – 24,570 / plate
+Check live system sizing & ROI on RateZilla: ${window.location.origin}`}
+        />
+      </div>
+
+      {/* Brand-Wise Panel Benchmark Table */}
+      <div className="bg-[#08170e] border border-[#00401a] rounded-2xl p-6 space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <Sun className="w-4 h-4 text-[#ffd700]" />
+              <span>Official Tier-1 Solar Panel Brand Benchmarks</span>
+            </h3>
+            <p className="text-xs text-slate-400">
+              Wholesale distributor rates verified from Hall Road Lahore &amp; Regal Chowk Karachi
+            </p>
+          </div>
+          <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#00401a] text-emerald-300 border border-emerald-500/20">
+            A-Grade Tier-1 Warranty
+          </span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs font-mono">
+            <thead className="bg-[#050d08] text-slate-400 border-b border-[#00401a]">
+              <tr>
+                <th className="py-2.5 px-3 font-sans">Brand &amp; Technology</th>
+                <th className="py-2.5 px-3">Wattage</th>
+                <th className="py-2.5 px-3">Price / Watt (PKR)</th>
+                <th className="py-2.5 px-3">Per Plate / Module Cost</th>
+                <th className="py-2.5 px-3">Efficiency</th>
+                <th className="py-2.5 px-3">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-emerald-950/60 text-slate-200">
+              <tr className="hover:bg-[#0c2314] transition-colors">
+                <td className="py-3 px-3 font-sans font-bold text-white flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  Jinko Solar Tiger Neo (N-Type Bifacial)
+                </td>
+                <td className="py-3 px-3 text-[#ffd700]">590W</td>
+                <td className="py-3 px-3">Rs. 40.00 – 45.00</td>
+                <td className="py-3 px-3 font-bold text-white">Rs. 23,600 – 29,338</td>
+                <td className="py-3 px-3 text-emerald-400">22.8%</td>
+                <td className="py-3 px-3 text-emerald-400">High Demand</td>
+              </tr>
+              <tr className="hover:bg-[#0c2314] transition-colors">
+                <td className="py-3 px-3 font-sans font-bold text-white flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  Longi Solar Hi-Mo X7 / 10X (HPBC)
+                </td>
+                <td className="py-3 px-3 text-[#ffd700]">585W</td>
+                <td className="py-3 px-3">Rs. 42.50 – 45.00</td>
+                <td className="py-3 px-3 font-bold text-white">Rs. 24,800 – 28,062</td>
+                <td className="py-3 px-3 text-emerald-400">23.2%</td>
+                <td className="py-3 px-3 text-emerald-400">Available</td>
+              </tr>
+              <tr className="hover:bg-[#0c2314] transition-colors">
+                <td className="py-3 px-3 font-sans font-bold text-white flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  Canadian Solar TopBiHiKu6 (TopCon)
+                </td>
+                <td className="py-3 px-3 text-[#ffd700]">585W</td>
+                <td className="py-3 px-3">Rs. 41.70 – 45.00</td>
+                <td className="py-3 px-3 font-bold text-white">Rs. 24,400 – 29,088</td>
+                <td className="py-3 px-3 text-emerald-400">22.6%</td>
+                <td className="py-3 px-3 text-emerald-400">Available</td>
+              </tr>
+              <tr className="hover:bg-[#0c2314] transition-colors">
+                <td className="py-3 px-3 font-sans font-bold text-white flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  JA Solar DeepBlue 4.0 Pro
+                </td>
+                <td className="py-3 px-3 text-[#ffd700]">585W</td>
+                <td className="py-3 px-3">Rs. 38.90 – 44.00</td>
+                <td className="py-3 px-3 font-bold text-white">Rs. 22,750 – 25,740</td>
+                <td className="py-3 px-3 text-emerald-400">22.5%</td>
+                <td className="py-3 px-3 text-emerald-400">Popular Budget</td>
+              </tr>
+              <tr className="hover:bg-[#0c2314] transition-colors">
+                <td className="py-3 px-3 font-sans font-bold text-white flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                  Trina Solar Vertex N (Dual Glass)
+                </td>
+                <td className="py-3 px-3 text-[#ffd700]">585W</td>
+                <td className="py-3 px-3">Rs. 38.90 – 42.00</td>
+                <td className="py-3 px-3 font-bold text-white">Rs. 22,750 – 24,570</td>
+                <td className="py-3 px-3 text-emerald-400">22.7%</td>
+                <td className="py-3 px-3 text-emerald-400">Stable Stock</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

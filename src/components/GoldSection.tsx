@@ -10,15 +10,19 @@ import {
   CheckCircle2,
   DollarSign,
   Percent,
+  Bell,
 } from 'lucide-react';
 import { GoldRateItem, CityGoldRate, HistoricalPricePoint } from '../types/market.js';
 import { calculateGoldSimulator } from '../services/clientCalculators.js';
+import { ShareRatesButton } from './ShareRatesButton.js';
 
 interface GoldSectionProps {
   rates: GoldRateItem[];
   silverRate: { perTola: number; per10Gram: number; perGram: number; change24h: number };
   cityRates: CityGoldRate[];
   history: HistoricalPricePoint[];
+  onOpenAlerts?: () => void;
+  onBackToHome?: () => void;
 }
 
 export const GoldSection: React.FC<GoldSectionProps> = ({
@@ -26,6 +30,7 @@ export const GoldSection: React.FC<GoldSectionProps> = ({
   silverRate,
   cityRates,
   history,
+  onOpenAlerts,
 }) => {
   // Chart state with crosshair lock
   const [selectedPointIndex, setSelectedPointIndex] = useState<number>(history.length - 1);
@@ -113,6 +118,16 @@ export const GoldSection: React.FC<GoldSectionProps> = ({
                 <span>+Rs. {rates[0]?.change24h || 1200} today</span>
                 <span className="text-slate-500 font-normal">· 11.664g</span>
               </div>
+              {onOpenAlerts && (
+                <button
+                  type="button"
+                  onClick={onOpenAlerts}
+                  className="mt-3 w-full flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[#00401a] hover:bg-[#005724] border border-[#ffd700]/30 rounded-lg text-xs font-semibold text-[#ffd700] transition-colors"
+                >
+                  <Bell className="w-3.5 h-3.5" />
+                  <span>Set Price Drop Alert</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -195,6 +210,22 @@ export const GoldSection: React.FC<GoldSectionProps> = ({
             </span>
           </div>
         </div>
+      </div>
+
+      {/* Share Gold & Silver Rates Toolbar */}
+      <div className="bg-[#051108] border border-[#00401a] p-4 rounded-xl flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-xs text-slate-300">
+          <Sparkles className="w-4 h-4 text-[#ffd700]" />
+          <span className="font-semibold text-white">Share Today&apos;s Sarafa Gold &amp; Silver Rates:</span>
+          <span className="hidden sm:inline text-slate-400">
+            Instant formatted broadcast for WhatsApp, SMS, or jewelers
+          </span>
+        </div>
+        <ShareRatesButton
+          gold24kTola={rates[0]?.perTola}
+          gold22kTola={rates[1]?.perTola}
+          silverTola={silverRate.perTola}
+        />
       </div>
 
       {/* 2-Column Split: 7-Day Price Trend Chart with Crosshair Lock + City-wise Sarafa Association Table */}
