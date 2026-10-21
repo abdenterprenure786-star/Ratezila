@@ -1,12 +1,13 @@
 import React from 'react';
 import {
   Menu,
-  Headphones,
-  Sparkles,
-  Zap,
   Sun,
   Moon,
+  Sparkles,
+  Headphones,
+  Bell,
   Home,
+  Zap,
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -33,161 +34,145 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenAlerts,
 }) => {
   return (
-    <header className="sticky top-0 z-40 bg-[#050d08]/95 dark:bg-[#050d08]/95 backdrop-blur-md border-b border-[#00401a]/40 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4 h-16">
-          {/* Left: 3-Lines Side Menu Button + Brand Wordmark */}
-          <div className="flex items-center gap-3 shrink-0">
-            {/* 3-Lines Hamburger Drawer Trigger */}
-            <button
-              type="button"
-              onClick={onOpenSideMenu}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-[#00401a] hover:bg-[#005724] text-[#ffd700] border border-[#ffd700]/30 transition-all hover:scale-105 active:scale-95 shadow-md shadow-[#00401a]/40"
-              title="Open 3-Lines Side Menu with All Tools"
-              aria-label="Open Navigation Menu"
-            >
-              <Menu className="w-5 h-5 text-[#ffd700]" />
-              <span className="text-xs font-bold hidden sm:inline">Menu</span>
-            </button>
-
-            <a
-              href="/"
-              onClick={(e) => {
-                e.preventDefault();
-                setActiveTab('home');
-              }}
-              className="group flex items-center gap-2 text-xl font-extrabold tracking-tight text-white whitespace-nowrap"
-            >
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#ffd700] to-[#b39700] flex items-center justify-center shadow-lg shadow-[#ffd700]/10">
-                <span className="text-[#050d08] font-black text-lg">R</span>
-              </div>
-              <span className="text-white group-hover:text-[#ffd700] transition-colors">
-                Rate<span className="text-[#ffd700]">Zilla</span>
-              </span>
-            </a>
-
-            <span className="hidden md:inline-block text-[11px] font-medium text-emerald-400/90 px-2 py-0.5 rounded bg-[#00401a]/60 border border-emerald-500/20 whitespace-nowrap">
-              Pakistan Live Hub
+    <header className="sticky top-0 z-40 backdrop-blur-md bg-white/90 dark:bg-[#0a0f1d]/90 border-b border-gray-200 dark:border-[#1f2937] transition-colors duration-300">
+      <div className="max-w-6xl mx-auto px-4 py-3.5 flex items-center justify-between">
+        {/* Left: Brand Logo & Web Name */}
+        <div
+          onClick={() => setActiveTab('home')}
+          className="flex items-center space-x-3 cursor-pointer group"
+          role="button"
+          tabIndex={0}
+          title="RateZilla Home Hub"
+        >
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 via-green-500 to-emerald-400 flex items-center justify-center text-white text-2xl font-black shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-200">
+            R
+          </div>
+          <div className="flex flex-col">
+            <span className="text-2xl font-black font-heading tracking-tight bg-gradient-to-r from-gray-900 via-emerald-600 to-green-500 dark:from-white dark:via-emerald-400 dark:to-green-400 bg-clip-text text-transparent">
+              RateZilla
+            </span>
+            <span className="hidden sm:inline-block text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 -mt-1 tracking-wide">
+              Pakistan Live Market &amp; Utility Portal
             </span>
           </div>
+        </div>
 
-          {/* Center: Desktop Nav Links */}
-          <nav className="hidden xl:flex items-center gap-5 text-sm font-medium text-slate-300">
-            <button
-              onClick={() => setActiveTab('home')}
-              className={`hover:text-[#ffd700] transition-colors whitespace-nowrap flex items-center gap-1 shrink-0 ${
-                activeTab === 'home' ? 'text-[#ffd700] font-semibold' : ''
-              }`}
-            >
-              <Home className="w-3.5 h-3.5" />
-              <span>All Portals</span>
-            </button>
+        {/* Center: Quick navigation links for wide screens */}
+        <nav className="hidden lg:flex items-center space-x-1 text-sm font-semibold">
+          <button
+            onClick={() => setActiveTab('home')}
+            className={`px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1.5 ${
+              activeTab === 'home'
+                ? 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40'
+                : 'text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400'
+            }`}
+          >
+            <Home className="w-4 h-4" />
+            <span>All Portals</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('gold')}
+            className={`px-3 py-1.5 rounded-xl transition-colors ${
+              activeTab === 'gold'
+                ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40'
+                : 'text-gray-600 dark:text-gray-300 hover:text-amber-500'
+            }`}
+          >
+            Gold 24K
+          </button>
+          <button
+            onClick={() => setActiveTab('solar')}
+            className={`px-3 py-1.5 rounded-xl transition-colors ${
+              activeTab === 'solar'
+                ? 'text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-950/40'
+                : 'text-gray-600 dark:text-gray-300 hover:text-yellow-500'
+            }`}
+          >
+            Solar
+          </button>
+          <button
+            onClick={() => setActiveTab('fuel')}
+            className={`px-3 py-1.5 rounded-xl transition-colors ${
+              activeTab === 'fuel'
+                ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40'
+                : 'text-gray-600 dark:text-gray-300 hover:text-blue-500'
+            }`}
+          >
+            OGRA Fuel
+          </button>
+          <button
+            onClick={() => setActiveTab('tax')}
+            className={`px-3 py-1.5 rounded-xl transition-colors ${
+              activeTab === 'tax'
+                ? 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/40'
+                : 'text-gray-600 dark:text-gray-300 hover:text-purple-500'
+            }`}
+          >
+            FBR Tax
+          </button>
+          <button
+            onClick={() => setActiveTab('electricity')}
+            className={`px-3 py-1.5 rounded-xl transition-colors ${
+              activeTab === 'electricity'
+                ? 'text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40'
+                : 'text-gray-600 dark:text-gray-300 hover:text-rose-500'
+            }`}
+          >
+            WAPDA Bills
+          </button>
+        </nav>
 
-            <button
-              onClick={() => setActiveTab('gold')}
-              className={`hover:text-[#ffd700] transition-colors whitespace-nowrap shrink-0 ${
-                activeTab === 'gold' ? 'text-[#ffd700] font-semibold' : ''
-              }`}
-            >
-              Sarafa Gold
-            </button>
+        {/* Right Controls: Update Rates, Theme Switcher & 3-Line Menu */}
+        <div className="flex items-center space-x-2 sm:space-x-3">
+          {/* Update Rates Script Button */}
+          <button
+            type="button"
+            onClick={onOpenRatesUpdater}
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 text-xs font-bold transition-all hover:scale-105 active:scale-95"
+            title="Update Rates or customize rate script"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+            <span>Update Rates</span>
+          </button>
 
-            <button
-              onClick={() => setActiveTab('solar')}
-              className={`hover:text-[#ffd700] transition-colors whitespace-nowrap shrink-0 ${
-                activeTab === 'solar' ? 'text-[#ffd700] font-semibold' : ''
-              }`}
-            >
-              Solar Estimator
-            </button>
+          {/* Price Alerts */}
+          <button
+            type="button"
+            onClick={onOpenAlerts}
+            className="hidden md:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gray-100 dark:bg-[#111827] text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-[#1f2937] hover:border-emerald-500 text-xs font-bold transition-all hover:scale-105 active:scale-95"
+            title="Daily market notifications & price drop alerts"
+          >
+            <Bell className="w-3.5 h-3.5 text-amber-500" />
+            <span>Alerts</span>
+          </button>
 
-            <button
-              onClick={() => setActiveTab('fuel')}
-              className={`hover:text-[#ffd700] transition-colors whitespace-nowrap shrink-0 ${
-                activeTab === 'fuel' ? 'text-[#ffd700] font-semibold' : ''
-              }`}
-            >
-              OGRA Fuel
-            </button>
+          {/* Light / Dark Mode Button */}
+          <button
+            id="themeToggle"
+            type="button"
+            onClick={onToggleTheme}
+            className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-[#111827] border border-gray-200 dark:border-[#1f2937] text-gray-700 dark:text-gray-300 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 transition-all duration-200 focus:outline-none hover:scale-105 active:scale-95"
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            aria-label="Toggle Theme"
+          >
+            {theme === 'dark' ? (
+              <Sun className="w-5 h-5 text-amber-400" />
+            ) : (
+              <Moon className="w-5 h-5 text-gray-700" />
+            )}
+          </button>
 
-            <button
-              onClick={() => setActiveTab('electricity')}
-              className={`hover:text-[#ffd700] transition-colors whitespace-nowrap shrink-0 ${
-                activeTab === 'electricity' ? 'text-[#ffd700] font-semibold' : ''
-              }`}
-            >
-              WAPDA Bills
-            </button>
-
-            <button
-              onClick={() => setActiveTab('tax')}
-              className={`hover:text-[#ffd700] transition-colors whitespace-nowrap shrink-0 ${
-                activeTab === 'tax' ? 'text-[#ffd700] font-semibold' : ''
-              }`}
-            >
-              FBR Tax
-            </button>
-          </nav>
-
-          {/* Right: Actions, Theme Switch & Modals */}
-          <div className="flex items-center gap-2 shrink-0">
-            {/* Update Rates Script Trigger */}
-            <button
-              onClick={onOpenRatesUpdater}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-[#ffd700] bg-[#00401a] border border-[#ffd700]/30 hover:border-[#ffd700] rounded-xl transition-all whitespace-nowrap hover:scale-105 active:scale-95"
-              title="Update live rates or customize rates script"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#ffd700]" />
-              <span>Update Rates</span>
-            </button>
-
-            {/* Light / Dark Mode Switch */}
-            <button
-              onClick={onToggleTheme}
-              className="p-2 rounded-xl bg-[#0a1e12] hover:bg-[#00401a] text-[#ffd700] border border-[#00401a] hover:border-[#ffd700]/40 transition-all hover:scale-105 active:scale-95"
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              aria-label="Toggle Theme"
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-[#ffd700]" />
-              ) : (
-                <Moon className="w-4 h-4 text-[#ffd700]" />
-              )}
-            </button>
-
-            {/* Alerts */}
-            <button
-              onClick={onOpenAlerts}
-              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 text-xs font-semibold text-[#ffd700] bg-[#0c2314] border border-[#ffd700]/30 hover:border-[#ffd700] rounded-xl transition-all whitespace-nowrap relative group"
-              title="Subscribe to daily market alerts & price drop notifications"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ffd700] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ffd700]"></span>
-              </span>
-              <span className="hidden sm:inline">Price Alerts</span>
-            </button>
-
-            {/* Speed Test */}
-            <button
-              onClick={onOpenSpeedTest}
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-emerald-300 bg-[#0a1f13] border border-emerald-500/30 rounded-xl hover:border-emerald-400 hover:text-white transition-all whitespace-nowrap"
-              title="Test real-time internet latency and speed"
-            >
-              <Zap className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Speed Test</span>
-            </button>
-
-            {/* Urdu Audio Guide */}
-            <button
-              onClick={onOpenAudioGuides}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-[#050d08] bg-gradient-to-r from-[#ffd700] to-[#f0c400] hover:from-[#ffdf33] hover:to-[#ffd700] rounded-xl shadow-md shadow-[#ffd700]/15 hover:shadow-[#ffd700]/25 transition-all whitespace-nowrap active:scale-95"
-            >
-              <Headphones className="w-3.5 h-3.5 text-[#050d08]" />
-              <span className="hidden md:inline">Urdu Audio</span>
-              <span className="md:hidden">Audio</span>
-            </button>
-          </div>
+          {/* 3-Lines Menu Drawer Button */}
+          <button
+            id="menuBtn"
+            type="button"
+            onClick={onOpenSideMenu}
+            className="w-10 h-10 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-center shadow-lg shadow-emerald-600/20 transition-all duration-200 focus:outline-none hover:scale-105 active:scale-95"
+            title="Open 3-Lines Navigation Menu"
+            aria-label="Open Navigation Menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
         </div>
       </div>
     </header>

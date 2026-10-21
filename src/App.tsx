@@ -19,6 +19,7 @@ import {
   Newspaper,
   ArrowLeft,
   Sparkles,
+  Menu,
 } from 'lucide-react';
 
 import { Header } from './components/Header.js';
@@ -39,7 +40,6 @@ import { SpeedTestModal } from './components/SpeedTestModal.js';
 import { AudioGuideModal } from './components/AudioGuideModal.js';
 import { AlertsSubscriptionModal } from './components/AlertsSubscriptionModal.js';
 import { SideDrawer } from './components/SideDrawer.js';
-import { BottomDrawerMenu } from './components/BottomDrawerMenu.js';
 import { RatesUpdaterModal, CustomRatesConfig, DEFAULT_RATES } from './components/RatesUpdaterModal.js';
 
 import { notificationManager } from './services/firebaseMessaging.js';
@@ -299,53 +299,65 @@ export default function App() {
         isRefreshing={isRefreshing}
       />
 
-      {/* Primary Tool Selector Ribbon */}
-      <div className="bg-[#07140b] dark:bg-[#07140b] border-b border-[#00401a]/50 sticky top-16 z-30 overflow-x-auto py-2.5 px-4">
-        <div className="max-w-7xl mx-auto flex items-center gap-2 min-w-max">
-          {toolTabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-                  isActive
-                    ? 'bg-[#00401a] text-[#ffd700] border border-[#ffd700]/40 shadow-lg shadow-[#00401a]/30'
-                    : 'bg-[#050d08]/80 text-slate-400 hover:text-white border border-[#00401a]/40 hover:border-emerald-600/40'
-                }`}
-              >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#ffd700]' : 'text-slate-400'}`} />
-                <span>{tab.label}</span>
-                <span className="text-[10px] text-emerald-400/80 font-urdu hidden sm:inline">
-                  {tab.urdu}
-                </span>
-              </button>
-            );
-          })}
+      {/* Primary Tool Selector Ribbon (Only shown when browsing specific tools) */}
+      {activeTab !== 'home' && (
+        <div className="bg-white/80 dark:bg-[#07140b]/90 border-b border-gray-200 dark:border-[#00401a]/50 sticky top-16 z-30 overflow-x-auto py-2.5 px-4 backdrop-blur-md">
+          <div className="max-w-6xl mx-auto flex items-center gap-2 min-w-max">
+            {toolTabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+                    isActive
+                      ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30 font-bold'
+                      : 'bg-gray-100 dark:bg-[#050d08]/80 text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-white border border-gray-200 dark:border-[#00401a]/40'
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-gray-500 dark:text-gray-400'}`} />
+                  <span>{tab.label}</span>
+                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-urdu hidden sm:inline">
+                    {tab.urdu}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Main Viewport Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-8">
         {/* Navigation Breadcrumb & Back Button when in individual tool */}
         {activeTab !== 'home' && (
-          <div className="mb-6 flex items-center justify-between gap-4 pb-4 border-b border-[#00401a]/40">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-white dark:bg-[#111827] border border-gray-200 dark:border-[#1f2937] shadow-sm">
             <button
               onClick={() => setActiveTab('home')}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#00401a]/60 hover:bg-[#00401a] text-[#ffd700] border border-[#ffd700]/30 text-xs font-bold transition-all hover:scale-105 active:scale-95"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 text-xs font-bold transition-all hover:scale-105 active:scale-95"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back to All Portals (Home Hub)</span>
+              <span>← Back to All Portals (Home Hub)</span>
             </button>
 
-            <button
-              onClick={() => setIsRatesUpdaterOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0a1e12] hover:bg-[#00401a] text-emerald-300 border border-emerald-500/30 text-xs font-semibold transition-colors"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#ffd700]" />
-              <span>Update Rates</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsSideMenuOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-[#1f2937] dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-[#1f2937] text-xs font-semibold transition-colors"
+              >
+                <Menu className="w-3.5 h-3.5 text-emerald-500" />
+                <span>All Pages Menu</span>
+              </button>
+
+              <button
+                onClick={() => setIsRatesUpdaterOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 text-xs font-bold transition-colors"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Update Rates</span>
+              </button>
+            </div>
           </div>
         )}
 
@@ -402,13 +414,52 @@ export default function App() {
         {activeTab === 'news' && <MarketNewsSection news={news} />}
       </main>
 
-      {/* 3-Lines Minimal Floating Bottom Bar with Expandable Menu */}
-      <BottomDrawerMenu
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        gold24kTola={goldRates[0]?.perTola}
-        petrolPrice={fuelRates[0]?.currentPrice}
-      />
+      {/* CLEAN SPACIOUS STATIC FOOTER (No Floating Bottom Bars) */}
+      <footer className="mt-auto bg-white dark:bg-[#111827] border-t border-gray-200 dark:border-[#1f2937] py-12 transition-colors duration-300">
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <div
+            onClick={() => {
+              setActiveTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="inline-flex items-center justify-center space-x-3 mb-4 cursor-pointer group"
+          >
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-600 via-green-500 to-emerald-400 flex items-center justify-center text-white font-black text-lg shadow-md shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+              R
+            </div>
+            <span className="text-xl font-black font-heading text-gray-900 dark:text-white">
+              RateZilla
+            </span>
+          </div>
+
+          <p className="text-sm text-gray-500 dark:text-gray-400 max-w-md mx-auto mb-6">
+            RateZilla is Pakistan's API-driven live market rates and utility portal, providing reliable benchmark calculations.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs font-semibold text-gray-600 dark:text-gray-400 mb-6">
+            <button onClick={() => setActiveTab('home')} className="hover:text-emerald-500 transition-colors">Home Hub</button>
+            <span>•</span>
+            <button onClick={() => setActiveTab('gold')} className="hover:text-amber-500 transition-colors">Sarafa Gold</button>
+            <span>•</span>
+            <button onClick={() => setActiveTab('solar')} className="hover:text-yellow-500 transition-colors">Solar System</button>
+            <span>•</span>
+            <button onClick={() => setActiveTab('fuel')} className="hover:text-blue-500 transition-colors">OGRA Fuel</button>
+            <span>•</span>
+            <button onClick={() => setActiveTab('tax')} className="hover:text-purple-500 transition-colors">FBR Tax</button>
+            <span>•</span>
+            <button onClick={() => setActiveTab('zakat')} className="hover:text-emerald-500 transition-colors">Nisab Zakat</button>
+            <span>•</span>
+            <button onClick={() => setIsSideMenuOpen(true)} className="inline-flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 hover:underline">
+              <Menu className="w-3.5 h-3.5" />
+              <span>All 11 Tools Menu</span>
+            </button>
+          </div>
+
+          <div className="text-xs text-gray-400 dark:text-gray-500">
+            &copy; 2026 RateZilla. All rights reserved.
+          </div>
+        </div>
+      </footer>
 
       {/* 3-Lines Side Drawer Menu */}
       <SideDrawer

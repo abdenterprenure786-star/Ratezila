@@ -7,9 +7,11 @@ interface ShareRatesButtonProps {
   silverTola?: number;
   petrolPrice?: number;
   dieselPrice?: number;
+  usdPkr?: number;
   title?: string;
   customText?: string;
   className?: string;
+  variant?: 'button' | 'inline' | 'icon';
 }
 
 export const ShareRatesButton: React.FC<ShareRatesButtonProps> = ({
@@ -18,9 +20,11 @@ export const ShareRatesButton: React.FC<ShareRatesButtonProps> = ({
   silverTola = 6282,
   petrolPrice = 382.02,
   dieselPrice = 389.80,
+  usdPkr = 278.35,
   title = "Today's Official Pakistan Market Rates",
   customText,
   className = '',
+  variant = 'button',
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -42,6 +46,9 @@ export const ShareRatesButton: React.FC<ShareRatesButtonProps> = ({
 ⛽ *OGRA Fuel Benchmarks:*
 • Petrol (Euro 5): Rs. ${petrolPrice.toFixed(2)} / Litre
 • High-Speed Diesel: Rs. ${dieselPrice.toFixed(2)} / Litre
+
+💵 *Forex Benchmark:*
+• USD / PKR: Rs. ${usdPkr.toFixed(2)}
 
 ☀️ *Solar Modules:* Rs. 40.00 – 45.00 / Watt (Tier-1 TopCon)
 ----------------------------------------
