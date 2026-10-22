@@ -1,514 +1,288 @@
 import React, { useState } from 'react';
-import {
-  X,
-  Save,
-  RotateCcw,
-  Code2,
-  Copy,
-  Check,
-  Download,
-  Upload,
-  Coins,
-  Fuel,
-  Sun,
-  DollarSign,
-  Sparkles,
-} from 'lucide-react';
-
-export interface CustomRatesConfig {
-  gold24kTola: number;
-  gold22kTola: number;
-  gold21kTola: number;
-  gold18kTola: number;
-  silverTola: number;
-  petrolPrice: number;
-  dieselPrice: number;
-  hobcPrice: number;
-  lpgCylinderPrice: number;
-  lpgKgPrice: number;
-  solarWattPrice: number;
-  usdPkr: number;
-  lastUpdated: string;
-}
-
-export const DEFAULT_RATES: CustomRatesConfig = {
-  gold24kTola: 429500,
-  gold22kTola: 393708,
-  gold21kTola: 375813,
-  gold18kTola: 322121,
-  silverTola: 6282,
-  petrolPrice: 382.02,
-  dieselPrice: 389.80,
-  hobcPrice: 415.00,
-  lpgCylinderPrice: 3300.00,
-  lpgKgPrice: 279.34,
-  solarWattPrice: 41.50,
-  usdPkr: 278.35,
-  lastUpdated: new Date().toISOString(),
-};
+import { X, Save, Copy, Check, Terminal, FileCode, Sparkles, Download } from 'lucide-react';
+import { GoldRate, SilverRate, FuelRate, CurrencyRate } from '../types';
 
 interface RatesUpdaterModalProps {
   isOpen: boolean;
   onClose: () => void;
-  currentRates?: Partial<CustomRatesConfig>;
-  onSaveRates: (rates: CustomRatesConfig) => void;
+  goldRates: GoldRate[];
+  silverRate: SilverRate;
+  fuelRates: FuelRate[];
+  currencies: CurrencyRate[];
+  onSaveManualRates: (updated: {
+    gold24k: number;
+    gold22k: number;
+    silver: number;
+    petrol: number;
+    diesel: number;
+    usdpkr: number;
+  }) => void;
 }
 
 export const RatesUpdaterModal: React.FC<RatesUpdaterModalProps> = ({
   isOpen,
   onClose,
-  currentRates,
-  onSaveRates,
+  goldRates,
+  silverRate,
+  fuelRates,
+  currencies,
+  onSaveManualRates
 }) => {
-  const [formData, setFormData] = useState<CustomRatesConfig>({
-    ...DEFAULT_RATES,
-    ...currentRates,
-  });
+  const [activeTab, setActiveTab] = useState<'editor' | 'script'>('editor');
+  const [copied, setCopied] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<'editor' | 'json' | 'script'>('editor');
-  const [jsonInput, setJsonInput] = useState<string>(
-    JSON.stringify(formData, null, 2)
-  );
-  const [copiedScript, setCopiedScript] = useState<boolean>(false);
-  const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
+  const [gold24k, setGold24k] = useState(goldRates[0]?.perTola || 284500);
+  const [gold22k, setGold22k] = useState(goldRates[1]?.perTola || 260790);
+  const [silver, setSilver] = useState(silverRate?.perTola || 3350);
+  const [petrol, setPetrol] = useState(fuelRates[0]?.currentPrice || 281.40);
+  const [diesel, setDiesel] = useState(fuelRates[1]?.currentPrice || 285.50);
+  const [usdpkr, setUsdpkr] = useState(currencies[0]?.interbankSell || 278.35);
 
   if (!isOpen) return null;
 
-  const handleChange = (field: keyof CustomRatesConfig, val: number) => {
-    const updated = {
-      ...formData,
-      [field]: isNaN(val) ? 0 : val,
-      lastUpdated: new Date().toISOString(),
-    };
-    setFormData(updated);
-    setJsonInput(JSON.stringify(updated, null, 2));
-  };
-
   const handleSave = () => {
-    const finalData = {
-      ...formData,
-      lastUpdated: new Date().toISOString(),
-    };
-    onSaveRates(finalData);
-    setSaveSuccess(true);
-    setTimeout(() => {
-      setSaveSuccess(false);
-      onClose();
-    }, 1200);
+    onSaveManualRates({
+      gold24k: Number(gold24k),
+      gold22k: Number(gold22k),
+      silver: Number(silver),
+      petrol: Number(petrol),
+      diesel: Number(diesel),
+      usdpkr: Number(usdpkr)
+    });
+    onClose();
   };
 
-  const handleReset = () => {
-    if (window.confirm('Reset all rates back to official Sarafa & OGRA benchmarks?')) {
-      setFormData(DEFAULT_RATES);
-      setJsonInput(JSON.stringify(DEFAULT_RATES, null, 2));
-      onSaveRates(DEFAULT_RATES);
-    }
-  };
+  const automationScript = `/**
+ * RateZilla Pakistan - Market Rates Updater Script
+ * Run with: node update_rates.mjs
+ */
 
-  const handleImportJson = () => {
-    try {
-      const parsed = JSON.parse(jsonInput);
-      setFormData({
-        ...DEFAULT_RATES,
-        ...parsed,
-        lastUpdated: new Date().toISOString(),
-      });
-      alert('Rates JSON successfully parsed! Click "Save & Apply Live" to activate.');
-    } catch {
-      alert('Invalid JSON format. Please verify the JSON syntax.');
-    }
-  };
+import fs from 'fs';
 
-  const serverScriptCode = `// RateZilla CLI / Node.js Standalone Rates Update Script
-// Run via: node updateRates.js OR paste into server/data/ratesData.ts
+const updatedRates = {
+  timestamp: new Date().toISOString(),
+  gold24kTola: ${gold24k},
+  gold22kTola: ${gold22k},
+  silverTola: ${silver},
+  petrolPrice: ${petrol},
+  dieselPrice: ${diesel},
+  usdPkr: ${usdpkr},
+  authority: "Sarafa Association Karachi & OGRA Pakistan"
+};
 
-export const latestRates = ${JSON.stringify(formData, null, 2)};
+console.log("⚡ RateZilla Rates Updated Successfully:");
+console.table(updatedRates);
 
-console.log("✅ RateZilla rates updated successfully!");
-console.log("24K Gold: Rs. " + latestRates.gold24kTola);
-console.log("Petrol: Rs. " + latestRates.petrolPrice);
+// Saves to local cache or syncs with RateZilla API
+fs.writeFileSync('./latest_rates.json', JSON.stringify(updatedRates, null, 2));
+console.log("Saved to latest_rates.json");
 `;
 
-  const copyServerScript = async () => {
-    try {
-      await navigator.clipboard.writeText(serverScriptCode);
-      setCopiedScript(true);
-      setTimeout(() => setCopiedScript(false), 2000);
-    } catch {}
+  const handleCopyScript = () => {
+    navigator.clipboard.writeText(automationScript);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
-  const downloadJson = () => {
-    const blob = new Blob([jsonInput], { type: 'application/json' });
+  const handleDownloadJson = () => {
+    const data = {
+      timestamp: new Date().toISOString(),
+      gold24kTola: gold24k,
+      gold22kTola: gold22k,
+      silverTola: silver,
+      petrolPrice: petrol,
+      dieselPrice: diesel,
+      usdPkr: usdpkr
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `ratezilla_rates_${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `ratezilla_rates_${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-3xl max-h-[90vh] flex flex-col rounded-2xl bg-[#07170d] dark:bg-[#07170d] text-slate-100 border border-[#ffd700]/30 shadow-2xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+      <div className="relative w-full max-w-2xl bg-[#111827] text-gray-100 rounded-2xl border border-gray-700 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-[#00401a]/60 bg-[#040e08]">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#ffd700] to-[#b89b00] flex items-center justify-center text-[#050d08] font-black">
-              <Sparkles className="w-5 h-5 text-[#050d08]" />
+        <div className="p-5 border-b border-gray-800 bg-[#0b0f19] flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400">
+              <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                RateZilla Live Rates Manager &amp; Script Tool
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#00401a] text-[#ffd700] border border-[#ffd700]/30">
-                  Custom Rates Hub
-                </span>
-              </h2>
-              <p className="text-xs text-slate-400">
-                Update market prices on the fly, export JSON scripts, or sync offline engines.
-              </p>
+              <h3 className="text-base sm:text-lg font-bold text-white">RateZilla Rates Manager & Updater Script</h3>
+              <p className="text-xs text-gray-400">Update live rates manually or get automation script</p>
             </div>
           </div>
-
           <button
             onClick={onClose}
-            className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Tab Bar */}
-        <div className="flex items-center gap-2 px-5 py-2.5 bg-[#051109] border-b border-[#00401a]/40 text-xs font-semibold">
+        {/* Tab Selection */}
+        <div className="flex border-b border-gray-800 bg-gray-900/50">
           <button
             onClick={() => setActiveTab('editor')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${
+            className={`flex-1 py-3 px-4 text-xs font-bold transition-colors cursor-pointer flex items-center justify-center gap-2 border-b-2 ${
               activeTab === 'editor'
-                ? 'bg-[#00401a] text-[#ffd700] border border-[#ffd700]/30'
-                : 'text-slate-400 hover:text-white'
+                ? 'border-emerald-500 text-emerald-400 bg-emerald-500/10'
+                : 'border-transparent text-gray-400 hover:text-gray-200'
             }`}
           >
-            Interactive Rate Form
-          </button>
-          <button
-            onClick={() => setActiveTab('json')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${
-              activeTab === 'json'
-                ? 'bg-[#00401a] text-[#ffd700] border border-[#ffd700]/30'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            JSON Script Import / Export
+            <Save className="w-4 h-4" />
+            <span>Manual Rates Editor</span>
           </button>
           <button
             onClick={() => setActiveTab('script')}
-            className={`px-3 py-1.5 rounded-lg transition-colors ${
+            className={`flex-1 py-3 px-4 text-xs font-bold transition-colors cursor-pointer flex items-center justify-center gap-2 border-b-2 ${
               activeTab === 'script'
-                ? 'bg-[#00401a] text-[#ffd700] border border-[#ffd700]/30'
-                : 'text-slate-400 hover:text-white'
+                ? 'border-emerald-500 text-emerald-400 bg-emerald-500/10'
+                : 'border-transparent text-gray-400 hover:text-gray-200'
             }`}
           >
-            Node.js / Server Snippet
+            <Terminal className="w-4 h-4" />
+            <span>Updater Script & JSON</span>
           </button>
         </div>
 
-        {/* Body Content */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          {activeTab === 'editor' && (
-            <div className="space-y-6">
-              {/* Gold Section */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-xs font-bold text-[#ffd700] uppercase tracking-wider">
-                  <Coins className="w-4 h-4" />
-                  <span>Sarafa Gold &amp; Bullion Benchmarks (PKR)</span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  <div>
-                    <label className="text-xs text-slate-300 block mb-1">
-                      24K Pure Gold (Per Tola)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.gold24kTola}
-                      onChange={(e) =>
-                        handleChange('gold24kTola', parseFloat(e.target.value))
-                      }
-                      className="w-full bg-[#030905] border border-[#00401a] focus:border-[#ffd700] rounded-xl px-3 py-2 text-sm font-mono text-white outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs text-slate-300 block mb-1">
-                      22K Jewellery Gold (Per Tola)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.gold22kTola}
-                      onChange={(e) =>
-                        handleChange('gold22kTola', parseFloat(e.target.value))
-                      }
-                      className="w-full bg-[#030905] border border-[#00401a] focus:border-[#ffd700] rounded-xl px-3 py-2 text-sm font-mono text-white outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs text-slate-300 block mb-1">
-                      Chandi / Silver (Per Tola)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.silverTola}
-                      onChange={(e) =>
-                        handleChange('silverTola', parseFloat(e.target.value))
-                      }
-                      className="w-full bg-[#030905] border border-[#00401a] focus:border-[#ffd700] rounded-xl px-3 py-2 text-sm font-mono text-white outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs text-slate-300 block mb-1">
-                      21K Traditional (Per Tola)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.gold21kTola}
-                      onChange={(e) =>
-                        handleChange('gold21kTola', parseFloat(e.target.value))
-                      }
-                      className="w-full bg-[#030905] border border-[#00401a] focus:border-[#ffd700] rounded-xl px-3 py-2 text-sm font-mono text-white outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs text-slate-300 block mb-1">
-                      18K Diamond Mount (Per Tola)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.gold18kTola}
-                      onChange={(e) =>
-                        handleChange('gold18kTola', parseFloat(e.target.value))
-                      }
-                      className="w-full bg-[#030905] border border-[#00401a] focus:border-[#ffd700] rounded-xl px-3 py-2 text-sm font-mono text-white outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-xs text-slate-300 block mb-1">
-                      USD to PKR (Interbank / SBP)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.05"
-                      value={formData.usdPkr}
-                      onChange={(e) =>
-                        handleChange('usdPkr', parseFloat(e.target.value))
-                      }
-                      className="w-full bg-[#030905] border border-[#00401a] focus:border-[#ffd700] rounded-xl px-3 py-2 text-sm font-mono text-white outline-none"
-                    />
-                  </div>
-                </div>
+        {/* Body */}
+        <div className="p-5 max-h-[65vh] overflow-y-auto space-y-4">
+          {activeTab === 'editor' ? (
+            <div className="space-y-4">
+              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs">
+                💡 <strong>Tip:</strong> Entering rates here updates the cached benchmarks instantly across all calculators (Solar, Tax, Zakat, Trip Planner, Gold Simulator).
               </div>
 
-              {/* Fuel & Gas Section */}
-              <div className="space-y-3 pt-3 border-t border-[#00401a]/40">
-                <div className="flex items-center gap-2 text-xs font-bold text-[#ffd700] uppercase tracking-wider">
-                  <Fuel className="w-4 h-4" />
-                  <span>OGRA Fuel &amp; LPG Benchmarks (PKR)</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-300 mb-1">
+                    24K Gold (Rs / Tola)
+                  </label>
+                  <input
+                    type="number"
+                    value={gold24k}
+                    onChange={(e) => setGold24k(Number(e.target.value))}
+                    className="w-full bg-gray-900 border border-gray-700 rounded-xl px-3.5 py-2 text-sm text-amber-400 font-bold focus:outline-none focus:border-amber-400"
+                  />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                  <div>
-                    <label className="text-xs text-slate-300 block mb-1">
-                      Petrol (Premier Euro 5 / Litre)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={formData.petrolPrice}
-                      onChange={(e) =>
-                        handleChange('petrolPrice', parseFloat(e.target.value))
-                      }
-                      className="w-full bg-[#030905] border border-[#00401a] focus:border-[#ffd700] rounded-xl px-3 py-2 text-sm font-mono text-white outline-none"
-                    />
-                  </div>
 
-                  <div>
-                    <label className="text-xs text-slate-300 block mb-1">
-                      High Speed Diesel (HSD / Litre)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={formData.dieselPrice}
-                      onChange={(e) =>
-                        handleChange('dieselPrice', parseFloat(e.target.value))
-                      }
-                      className="w-full bg-[#030905] border border-[#00401a] focus:border-[#ffd700] rounded-xl px-3 py-2 text-sm font-mono text-white outline-none"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-300 mb-1">
+                    22K Gold (Rs / Tola)
+                  </label>
+                  <input
+                    type="number"
+                    value={gold22k}
+                    onChange={(e) => setGold22k(Number(e.target.value))}
+                    className="w-full bg-gray-900 border border-gray-700 rounded-xl px-3.5 py-2 text-sm text-amber-300 font-bold focus:outline-none focus:border-amber-400"
+                  />
+                </div>
 
-                  <div>
-                    <label className="text-xs text-slate-300 block mb-1">
-                      High Octane (HOBC / Litre)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.5"
-                      value={formData.hobcPrice}
-                      onChange={(e) =>
-                        handleChange('hobcPrice', parseFloat(e.target.value))
-                      }
-                      className="w-full bg-[#030905] border border-[#00401a] focus:border-[#ffd700] rounded-xl px-3 py-2 text-sm font-mono text-white outline-none"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-300 mb-1">
+                    Fine Silver (Rs / Tola)
+                  </label>
+                  <input
+                    type="number"
+                    value={silver}
+                    onChange={(e) => setSilver(Number(e.target.value))}
+                    className="w-full bg-gray-900 border border-gray-700 rounded-xl px-3.5 py-2 text-sm text-slate-300 font-bold focus:outline-none focus:border-slate-400"
+                  />
+                </div>
 
-                  <div>
-                    <label className="text-xs text-slate-300 block mb-1">
-                      LPG Domestic Cylinder (11.8 Kg)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.lpgCylinderPrice}
-                      onChange={(e) =>
-                        handleChange('lpgCylinderPrice', parseFloat(e.target.value))
-                      }
-                      className="w-full bg-[#030905] border border-[#00401a] focus:border-[#ffd700] rounded-xl px-3 py-2 text-sm font-mono text-white outline-none"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-300 mb-1">
+                    Petrol Regular (Rs / Litre)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={petrol}
+                    onChange={(e) => setPetrol(Number(e.target.value))}
+                    className="w-full bg-gray-900 border border-gray-700 rounded-xl px-3.5 py-2 text-sm text-blue-400 font-bold focus:outline-none focus:border-blue-400"
+                  />
+                </div>
 
-                  <div>
-                    <label className="text-xs text-slate-300 block mb-1">
-                      LPG Per Kg Base Rate
-                    </label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      value={formData.lpgKgPrice}
-                      onChange={(e) =>
-                        handleChange('lpgKgPrice', parseFloat(e.target.value))
-                      }
-                      className="w-full bg-[#030905] border border-[#00401a] focus:border-[#ffd700] rounded-xl px-3 py-2 text-sm font-mono text-white outline-none"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-300 mb-1">
+                    High Speed Diesel (Rs / Litre)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={diesel}
+                    onChange={(e) => setDiesel(Number(e.target.value))}
+                    className="w-full bg-gray-900 border border-gray-700 rounded-xl px-3.5 py-2 text-sm text-blue-300 font-bold focus:outline-none focus:border-blue-400"
+                  />
+                </div>
 
-                  <div>
-                    <label className="text-xs text-slate-300 block mb-1">
-                      Solar Tier-1 (Per Watt PKR)
-                    </label>
-                    <input
-                      type="number"
-                      step="0.5"
-                      value={formData.solarWattPrice}
-                      onChange={(e) =>
-                        handleChange('solarWattPrice', parseFloat(e.target.value))
-                      }
-                      className="w-full bg-[#030905] border border-[#00401a] focus:border-[#ffd700] rounded-xl px-3 py-2 text-sm font-mono text-white outline-none"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-300 mb-1">
+                    USD / PKR Interbank Sell
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={usdpkr}
+                    onChange={(e) => setUsdpkr(Number(e.target.value))}
+                    className="w-full bg-gray-900 border border-gray-700 rounded-xl px-3.5 py-2 text-sm text-emerald-400 font-bold focus:outline-none focus:border-emerald-400"
+                  />
                 </div>
               </div>
             </div>
-          )}
-
-          {activeTab === 'json' && (
+          ) : (
             <div className="space-y-4">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-300 font-medium">
-                  Custom Rates JSON Configuration
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold text-gray-300 flex items-center gap-1.5">
+                  <FileCode className="w-4 h-4 text-emerald-400" />
+                  <span>Automation Script (update_rates.mjs)</span>
                 </span>
-                <div className="flex items-center gap-2">
+                <div className="flex gap-2">
                   <button
-                    onClick={downloadJson}
-                    className="flex items-center gap-1.5 px-3 py-1 rounded bg-[#00401a] text-[#ffd700] hover:bg-[#005724] transition-colors"
+                    onClick={handleDownloadJson}
+                    className="px-2.5 py-1 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-medium text-gray-300 flex items-center gap-1 cursor-pointer"
                   >
                     <Download className="w-3.5 h-3.5" />
                     <span>Download JSON</span>
                   </button>
                   <button
-                    onClick={handleImportJson}
-                    className="flex items-center gap-1.5 px-3 py-1 rounded bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors"
+                    onClick={handleCopyScript}
+                    className="px-2.5 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-xs font-medium flex items-center gap-1 cursor-pointer"
                   >
-                    <Upload className="w-3.5 h-3.5" />
-                    <span>Parse &amp; Apply JSON</span>
+                    {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copied ? 'Copied!' : 'Copy Script'}</span>
                   </button>
                 </div>
               </div>
-              <textarea
-                value={jsonInput}
-                onChange={(e) => setJsonInput(e.target.value)}
-                rows={12}
-                className="w-full bg-[#030905] font-mono text-xs text-emerald-300 p-4 rounded-xl border border-[#00401a] outline-none focus:border-[#ffd700]"
-                placeholder="Paste rates JSON here..."
-              />
-            </div>
-          )}
 
-          {activeTab === 'script' && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-slate-300">
-                  Node.js / Express Server Update Script
-                </span>
-                <button
-                  onClick={copyServerScript}
-                  className="flex items-center gap-1.5 px-3 py-1 rounded bg-[#00401a] text-[#ffd700] hover:bg-[#005724] transition-colors"
-                >
-                  {copiedScript ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5" />
-                      <span>Copy Script</span>
-                    </>
-                  )}
-                </button>
-              </div>
-              <pre className="p-4 bg-[#030905] rounded-xl border border-[#00401a] text-xs font-mono text-emerald-300 overflow-x-auto">
-                {serverScriptCode}
+              <pre className="p-4 rounded-xl bg-gray-950 border border-gray-800 font-mono text-xs text-emerald-300 overflow-x-auto leading-relaxed">
+                {automationScript}
               </pre>
             </div>
           )}
         </div>
 
-        {/* Footer Actions */}
-        <div className="flex flex-wrap items-center justify-between gap-3 p-5 border-t border-[#00401a]/60 bg-[#040e08]">
+        {/* Footer */}
+        <div className="p-4 border-t border-gray-800 bg-[#0b0f19] flex items-center justify-end gap-3">
           <button
-            type="button"
-            onClick={handleReset}
-            className="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-rose-400 hover:text-rose-300 bg-rose-950/20 hover:bg-rose-950/40 border border-rose-800/40 rounded-xl transition-colors"
+            onClick={onClose}
+            className="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold transition-colors cursor-pointer"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reset to Official Benchmarks</span>
+            Cancel
           </button>
-
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-xs font-semibold text-slate-300 hover:text-white bg-slate-800/80 rounded-xl transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={handleSave}
-              className="flex items-center gap-2 px-5 py-2 text-xs font-bold text-[#050d08] bg-gradient-to-r from-[#ffd700] to-[#e6c200] hover:from-[#ffe033] hover:to-[#ffd700] rounded-xl shadow-lg shadow-[#ffd700]/20 transition-all active:scale-95"
-            >
-              {saveSuccess ? (
-                <>
-                  <Check className="w-4 h-4 text-[#050d08]" />
-                  <span>Applied Live!</span>
-                </>
-              ) : (
-                <>
-                  <Save className="w-4 h-4 text-[#050d08]" />
-                  <span>Save &amp; Apply Live</span>
-                </>
-              )}
-            </button>
-          </div>
+          <button
+            onClick={handleSave}
+            className="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-gray-950 text-xs font-bold transition-all shadow-lg shadow-emerald-500/20 cursor-pointer flex items-center gap-1.5"
+          >
+            <Save className="w-4 h-4" />
+            <span>Apply Rates to App</span>
+          </button>
         </div>
       </div>
     </div>

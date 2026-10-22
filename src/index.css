@@ -1,117 +1,166 @@
 @import "tailwindcss";
 
 @layer base {
-  :root {
-    --color-forest: #00401a;
-    --color-forest-dark: #002910;
-    --color-forest-light: #00682b;
-    --color-gold: #ffd700;
-    --color-gold-muted: #d4af37;
-    --color-dark-canvas: #050d08;
-    --color-dark-surface: #0a1710;
-    --color-dark-card: #0e2016;
-  }
-
-  body {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    transition: background-color 0.2s ease, color 0.2s ease;
-  }
-
-  /* Dark mode default */
-  html.dark body {
-    background-color: #050d08;
-    color: #e2e8f0;
-  }
-
-  /* Light mode */
-  html.light body {
-    background-color: #f4f7f5;
-    color: #0f172a;
-  }
-
-  html.light .bg-\[\#08170e\],
-  html.light .bg-\[\#07170d\],
-  html.light .bg-\[\#06140b\],
-  html.light .bg-\[\#0a1710\] {
-    background-color: #ffffff !important;
-    border-color: rgba(0, 64, 26, 0.15) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  }
-
-  html.light .bg-\[\#050d08\],
-  html.light .bg-\[\#030905\],
-  html.light .bg-\[\#040e08\] {
-    background-color: #edf2ee !important;
-    border-color: rgba(0, 64, 26, 0.15) !important;
-  }
-
-  html.light header {
-    background-color: rgba(255, 255, 255, 0.95) !important;
-    border-color: rgba(0, 64, 26, 0.15) !important;
-  }
-
-  html.light header a,
-  html.light header nav button {
-    color: #00401a !important;
-  }
-
-  html.light header nav button:hover {
-    color: #b48200 !important;
-  }
-
-  html.light h1,
-  html.light h2,
-  html.light h3,
-  html.light h4 {
-    color: #003314 !important;
-  }
-
-  html.light .text-slate-400 {
-    color: #475569 !important;
-  }
-
-  html.light .text-slate-300 {
-    color: #334155 !important;
-  }
-
-  html.light .text-slate-200 {
-    color: #1e293b !important;
-  }
-
-  html.light .text-white {
-    color: #0f172a !important;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-  }
-
-  .font-urdu {
-    font-family: 'Noto Nastaliq Urdu', -apple-system, BlinkMacSystemFont, serif;
-    direction: rtl;
-  }
-
-  .font-mono, .tabular-nums {
-    font-family: 'JetBrains Mono', monospace;
-    font-variant-numeric: tabular-nums;
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   }
 }
 
-/* Custom scrollbars */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* ==================== AESTHETIC SCROLL REVEAL ANIMATION ==================== */
+/* Base State (Pehle elements chupe honge) */
+.reveal-element {
+  opacity: 0;
+  transform: translateY(40px); /* Element 40px niche se shuru hoga */
+  transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform 1.2s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth ahista transition */
+  will-change: opacity, transform;
 }
-::-webkit-scrollbar-track {
-  background: #050d08;
+
+/* Active State (Jab scroll ho kar samne aayega to yeh class trigger hogi) */
+.reveal-element.active {
+  opacity: 1;
+  transform: translateY(0);
 }
-html.light ::-webkit-scrollbar-track {
-  background: #edf2ee;
+
+/* Element Stagger Delays (Ek ke baad ek cheez load hone ke liye) */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.3s; }
+.delay-3 { transition-delay: 0.5s; }
+
+/* ==================== WIREFRAME & MINIMAL DESIGN STYLES ==================== */
+.wireframe-card {
+  background-color: #f3eae1;
+  border: 2px solid #0a192f;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 800px;
+  padding: 40px;
+  color: #0a192f;
 }
-::-webkit-scrollbar-thumb {
-  background: #153321;
-  border-radius: 3px;
+
+html.dark .wireframe-card {
+  background-color: #0d1527;
+  border-color: #6ba4df;
+  color: #f3eae1;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: #1f4a30;
+
+.image-placeholder-box {
+  border: 2px solid #0a192f;
+  border-radius: 12px;
+  width: 100%;
+  background-color: transparent;
+}
+
+html.dark .image-placeholder-box {
+  border-color: #6ba4df;
+}
+
+.learn-more-btn {
+  align-self: flex-start;
+  border: 2px solid #0a192f;
+  border-radius: 30px;
+  background: transparent;
+  color: #0a192f;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+html.dark .learn-more-btn {
+  border-color: #6ba4df;
+  color: #6ba4df;
+}
+
+.learn-more-btn:hover {
+  background-color: rgba(10, 25, 47, 0.05);
+}
+
+html.dark .learn-more-btn:hover {
+  background-color: rgba(107, 164, 223, 0.1);
+}
+
+.lines-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wire-line {
+  height: 2px;
+  background-color: #0a192f;
+}
+
+html.dark .wire-line {
+  background-color: #6ba4df;
+}
+
+.wire-line.full { width: 100%; }
+.wire-line.mid { width: 75%; }
+.wire-line.short { width: 45%; }
+
+/* Clean Content Card Style */
+.scroll-box {
+  position: relative;
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.scroll-box:hover {
+  transform: translateY(-4px);
+  border-color: rgba(107, 164, 223, 0.4);
+}
+
+html:not(.dark) .scroll-box {
+  background: #ffffff;
+  border-color: rgba(10, 25, 47, 0.12);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+}
+
+/* ==================== PARALLAX IMAGE EFFECT ==================== */
+.parallax-container {
+  background-image: linear-gradient(rgba(11, 15, 25, 0.72), rgba(11, 15, 25, 0.88)), url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1920&q=80');
+  height: 100vh;
+  min-height: 580px;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  position: relative;
+}
+
+.normal-section {
+  min-height: 100vh;
+  background-color: #0b0f19;
+  color: white;
+  padding: 50px 20px;
+}
+
+html:not(.dark) .normal-section {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+@media (max-width: 768px) {
+  .parallax-container {
+    background-attachment: scroll;
+    height: 92vh;
+    min-height: 520px;
+    padding: 24px 16px;
+  }
+  .normal-section {
+    padding: 36px 14px;
+  }
 }
