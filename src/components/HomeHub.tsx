@@ -19,7 +19,10 @@ import {
   ExternalLink,
   ChevronDown,
   Image as ImageIcon,
-  Layers
+  Layers,
+  Briefcase,
+  Laptop,
+  ShieldCheck
 } from 'lucide-react';
 import { RateZillaLogo } from './RateZillaLogo';
 import { GoldRate, SilverRate, FuelRate, CurrencyRate, CityGoldRate } from '../types';
@@ -261,16 +264,40 @@ export const HomeHub: React.FC<HomeHubProps> = ({
       borderColor: 'border-pink-500/30 hover:border-pink-400'
     },
     {
-      id: 'advanced-tools',
-      title: 'Advanced Financial Tools & Signals',
-      titleUrdu: 'جدید مالیاتی ٹولز و مارکیٹ سگنلز',
-      desc: 'Freelancer IT export 154A remittance tax estimator, FBR 236K property duty calculator & Buying Power indicators for Gold, USD and Fuel.',
-      stat: 'IT Tax: 0.25% vs 1% | Property 236K',
-      icon: Sparkles,
-      badge: 'New Institutional Tools',
+      id: 'freelancer-tax',
+      title: 'Freelancer IT Export Tax (154A)',
+      titleUrdu: 'فری لانسر آئی ٹی ٹیکس',
+      desc: 'Calculate foreign USD/EUR/GBP earnings conversion to PKR, 0.25% PSEB tax vs 1% non-registered & bank wire/fintech gateway fees.',
+      stat: '0.25% PSEB vs 1% Non-Reg',
+      icon: Briefcase,
+      badge: 'Section 154A',
       accent: 'emerald',
       gradient: 'from-emerald-500/20 via-cyan-500/10 to-transparent',
       borderColor: 'border-[#00FF87]/40 hover:border-[#00FF87]'
+    },
+    {
+      id: 'property-tax',
+      title: 'Property Tax & Stamp Duty (236K)',
+      titleUrdu: 'جائیداد اور پلاٹ ٹیکس ڈیوٹی',
+      desc: 'FBR Section 236K advance tax, Punjab/Sindh/KPK/ICT provincial stamp duty, TMA 1% transfer fees & registration cost.',
+      stat: 'Filer 2% vs Non-Filer 7%',
+      icon: Building,
+      badge: 'FBR 236K',
+      accent: 'cyan',
+      gradient: 'from-cyan-500/20 via-blue-500/10 to-transparent',
+      borderColor: 'border-[#60EFFF]/40 hover:border-[#60EFFF]'
+    },
+    {
+      id: 'market-indicators',
+      title: 'Buying Power & Market Signals',
+      titleUrdu: 'مارکیٹ سگنلز و خریداری ٹائمنگ',
+      desc: 'Live quantitative buying signals, volatility ratings (0-100) and 30-day directional trends for Gold (24K), USD/PKR and Petroleum.',
+      stat: 'Gold Hold • USD Favorable',
+      icon: TrendingUp,
+      badge: 'Live Signals',
+      accent: 'amber',
+      gradient: 'from-amber-500/20 via-emerald-500/10 to-transparent',
+      borderColor: 'border-amber-500/30 hover:border-amber-400'
     }
   ];
 
@@ -461,19 +488,19 @@ export const HomeHub: React.FC<HomeHubProps> = ({
                     <div className="space-y-2 border-t border-gray-800/80 pt-2.5">
                       <div className="flex justify-between items-center text-sm">
                         <span className="text-gray-400">24K Pure Gold (Tola):</span>
-                        <span className="font-bold text-white font-mono">
+                        <span className="font-bold text-white item-price price-amount">
                           Rs. {goldRates[0]?.perTola?.toLocaleString() || '284,500'}
                         </span>
                       </div>
                       <div className="flex justify-between items-center text-sm">
                         <span className="text-gray-400">22K Jewelry (Tola):</span>
-                        <span className="font-semibold text-gray-200 font-mono">
+                        <span className="font-semibold text-gray-200 item-price price-amount">
                           Rs. {goldRates[1]?.perTola?.toLocaleString() || '260,790'}
                         </span>
                       </div>
                       <div className="flex justify-between items-center text-sm">
                         <span className="text-gray-400">Fine Silver (Tola):</span>
-                        <span className="font-semibold text-gray-300 font-mono">
+                        <span className="font-semibold text-gray-300 item-price price-amount">
                           Rs. {silverRate?.perTola?.toLocaleString() || '3,350'}
                         </span>
                       </div>
@@ -523,19 +550,19 @@ export const HomeHub: React.FC<HomeHubProps> = ({
                     <div className="space-y-2 border-t border-gray-800/80 pt-2.5">
                       <div className="flex justify-between items-center text-sm">
                         <span className="text-gray-400">Petrol Regular:</span>
-                        <span className="font-bold text-white font-mono">
+                        <span className="font-bold text-white item-price price-amount">
                           Rs. {fuelRates[0]?.currentPrice?.toFixed(2) || '281.40'} / L
                         </span>
                       </div>
                       <div className="flex justify-between items-center text-sm">
                         <span className="text-gray-400">High Speed Diesel:</span>
-                        <span className="font-semibold text-gray-200 font-mono">
+                        <span className="font-semibold text-gray-200 item-price price-amount">
                           Rs. {fuelRates[1]?.currentPrice?.toFixed(2) || '285.50'} / L
                         </span>
                       </div>
                       <div className="flex justify-between items-center text-sm">
                         <span className="text-gray-400">HOBC High Octane:</span>
-                        <span className="font-semibold text-gray-300 font-mono">
+                        <span className="font-semibold text-gray-300 item-price price-amount">
                           Rs. {fuelRates[2]?.currentPrice?.toFixed(2) || '295.00'} / L
                         </span>
                       </div>
@@ -587,7 +614,7 @@ export const HomeHub: React.FC<HomeHubProps> = ({
                         <span className="text-gray-400 flex items-center gap-1.5">
                           <span>🇺🇸 USD:</span>
                         </span>
-                        <span className="font-bold text-white font-mono">
+                        <span className="font-bold text-white item-price price-amount">
                           Rs. {currencies[0]?.interbankSell?.toFixed(2) || '278.35'}
                         </span>
                       </div>
@@ -595,7 +622,7 @@ export const HomeHub: React.FC<HomeHubProps> = ({
                         <span className="text-gray-400 flex items-center gap-1.5">
                           <span>🇸🇦 SAR Riyal:</span>
                         </span>
-                        <span className="font-semibold text-gray-200 font-mono">
+                        <span className="font-semibold text-gray-200 item-price price-amount">
                           Rs. {currencies[3]?.interbankSell?.toFixed(2) || '74.20'}
                         </span>
                       </div>
@@ -603,7 +630,7 @@ export const HomeHub: React.FC<HomeHubProps> = ({
                         <span className="text-gray-400 flex items-center gap-1.5">
                           <span>🇦🇪 AED Dirham:</span>
                         </span>
-                        <span className="font-semibold text-gray-300 font-mono">
+                        <span className="font-semibold text-gray-300 item-price price-amount">
                           Rs. {currencies[4]?.interbankSell?.toFixed(2) || '75.80'}
                         </span>
                       </div>
@@ -639,19 +666,209 @@ export const HomeHub: React.FC<HomeHubProps> = ({
             </div>
           </div>
 
+          {/* ========================================================================= */}
+          {/* DEDICATED SECTION: ADVANCED UTILITY CALCULATORS (3 DISTINCT CLICKABLE BLOCKS) */}
+          {/* ========================================================================= */}
+          <div className="space-y-5 pt-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-800/80 pb-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00FF87]/15 border border-[#00FF87]/30 text-[#00FF87] text-xs font-bold uppercase tracking-wider mb-2">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Institutional Finance &amp; Decision Intelligence</span>
+                </div>
+                <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2.5">
+                  <span>Advanced Utility Calculators</span>
+                  <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-[#00FF87] border border-[#00FF87]/30">
+                    3 Dedicated Pages
+                  </span>
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-400">
+                  Precision tax estimators for Pakistani IT freelancers and real estate transactions, plus live market purchasing power timing indicators
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 text-xs text-gray-400">
+                <span className="w-2 h-2 rounded-full bg-[#00FF87] animate-pulse" />
+                <span>Updated for 2025-26 Tax Laws</span>
+              </div>
+            </div>
+
+            {/* 3 DISTINCT CLICKABLE CARD BLOCKS */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* BLOCK 1: 💼 FREELANCER IT TAX ESTIMATOR */}
+              <div
+                onClick={() => {
+                  setActiveTab('freelancer-tax');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="group relative p-6 rounded-3xl bg-[#111827] hover:bg-[#131d31] border border-emerald-500/30 hover:border-[#00FF87] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer flex flex-col justify-between reveal-element delay-1"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="p-3.5 rounded-2xl bg-gradient-to-br from-[#00FF87]/20 to-[#60EFFF]/10 border border-[#00FF87]/30 text-[#00FF87] group-hover:scale-110 transition-transform">
+                      <Briefcase className="w-6 h-6" />
+                    </div>
+                    <span className="text-[11px] font-black px-2.5 py-1 rounded-full bg-[#00FF87]/15 text-[#00FF87] border border-[#00FF87]/40 shadow-sm">
+                      Section 154A
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-black text-white group-hover:text-[#00FF87] transition-colors flex items-center gap-1.5">
+                      <span>Freelancer IT Tax Estimator</span>
+                    </h3>
+                    <span className="text-xs text-[#00FF87] font-serif block mt-0.5">
+                      فری لانسر آئی ٹی ایکسپورٹ ٹیکس کیلکولیٹر
+                    </span>
+                    <p className="text-xs text-gray-300 leading-relaxed mt-2.5">
+                      Calculate net take-home PKR income from USD/EUR/GBP remittances after Section 154A final tax (0.25% PSEB vs 1% Non-Registered) and bank wire/fintech fee deductions.
+                    </p>
+                  </div>
+
+                  {/* Highlight Stats / Feature Pills */}
+                  <div className="space-y-1.5 pt-2 border-t border-gray-800">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-gray-400">PSEB Tax Rate:</span>
+                      <span className="font-bold text-[#00FF87] font-mono">0.25% Final Tax</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-gray-400">Non-Registered:</span>
+                      <span className="font-semibold text-amber-400 font-mono">1.00% Standard</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-gray-400">Supported Currencies:</span>
+                      <span className="text-gray-300 font-mono">USD, EUR, GBP, AED</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-gray-800/80 flex items-center justify-between text-xs font-bold text-[#00FF87]">
+                  <span>Launch IT Calculator</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                </div>
+              </div>
+
+              {/* BLOCK 2: 🏠 PROPERTY TAX & STAMP DUTY */}
+              <div
+                onClick={() => {
+                  setActiveTab('property-tax');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="group relative p-6 rounded-3xl bg-[#111827] hover:bg-[#131d31] border border-cyan-500/30 hover:border-[#60EFFF] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-cyan-500/10 cursor-pointer flex flex-col justify-between reveal-element delay-2"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="p-3.5 rounded-2xl bg-gradient-to-br from-[#60EFFF]/20 to-blue-500/10 border border-[#60EFFF]/30 text-[#60EFFF] group-hover:scale-110 transition-transform">
+                      <Building className="w-6 h-6" />
+                    </div>
+                    <span className="text-[11px] font-black px-2.5 py-1 rounded-full bg-[#60EFFF]/15 text-[#60EFFF] border border-[#60EFFF]/40 shadow-sm">
+                      FBR 236K / 236C
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-black text-white group-hover:text-[#60EFFF] transition-colors flex items-center gap-1.5">
+                      <span>Property Tax &amp; Stamp Duty</span>
+                    </h3>
+                    <span className="text-xs text-[#60EFFF] font-serif block mt-0.5">
+                      جائیداد پر ٹیکس اور اسٹامپ ڈیوٹی
+                    </span>
+                    <p className="text-xs text-gray-300 leading-relaxed mt-2.5">
+                      Estimate total acquisition outlay and government duties: Section 236K Advance Tax, provincial Stamp Duty for Punjab/Sindh/KPK/ICT, TMA transfer fee &amp; registration.
+                    </p>
+                  </div>
+
+                  {/* Highlight Stats / Feature Pills */}
+                  <div className="space-y-1.5 pt-2 border-t border-gray-800">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-gray-400">Filer Advance Tax:</span>
+                      <span className="font-bold text-[#60EFFF] font-mono">2.00% under 236K</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-gray-400">Non-Filer Surcharge:</span>
+                      <span className="font-semibold text-rose-400 font-mono">5.00% to 7.00%</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-gray-400">Provincial Stamp:</span>
+                      <span className="text-gray-300 font-mono">1% (Punjab) - 2% (Sindh)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-gray-800/80 flex items-center justify-between text-xs font-bold text-[#60EFFF]">
+                  <span>Launch Property Calculator</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                </div>
+              </div>
+
+              {/* BLOCK 3: 📈 BUYING POWER & MARKET INDICATORS */}
+              <div
+                onClick={() => {
+                  setActiveTab('market-indicators');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="group relative p-6 rounded-3xl bg-[#111827] hover:bg-[#131d31] border border-[#00FF87]/30 hover:border-[#00FF87] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer flex flex-col justify-between reveal-element delay-3"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <div className="p-3.5 rounded-2xl bg-gradient-to-br from-[#00FF87]/20 to-amber-500/10 border border-[#00FF87]/30 text-[#00FF87] group-hover:scale-110 transition-transform">
+                      <TrendingUp className="w-6 h-6" />
+                    </div>
+                    <span className="text-[11px] font-black px-2.5 py-1 rounded-full bg-emerald-500/15 text-[#00FF87] border border-[#00FF87]/40 shadow-sm">
+                      Live Market Signals
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="text-lg font-black text-white group-hover:text-[#00FF87] transition-colors flex items-center gap-1.5">
+                      <span>Buying Power &amp; Market Indicators</span>
+                    </h3>
+                    <span className="text-xs text-[#00FF87] font-serif block mt-0.5">
+                      مارکیٹ سگنلز اور خریداری کے انڈیکیٹرز
+                    </span>
+                    <p className="text-xs text-gray-300 leading-relaxed mt-2.5">
+                      Live market volatility ratings, price pressure analysis, smart timing recommendation badges ("Favorable to Buy", "Hold"), and 30-day directional overviews for Gold, USD and Petrol.
+                    </p>
+                  </div>
+
+                  {/* Highlight Stats / Feature Pills */}
+                  <div className="space-y-1.5 pt-2 border-t border-gray-800">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-gray-400">Gold 24K Signal:</span>
+                      <span className="font-bold text-amber-400 font-mono">Hold / Wait for Dip</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-gray-400">USD / PKR Signal:</span>
+                      <span className="font-bold text-[#00FF87] font-mono">Favorable to Buy</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-gray-400">Petrol Fortnight:</span>
+                      <span className="font-semibold text-rose-400 font-mono">High Volatility (74/100)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-gray-800/80 flex items-center justify-between text-xs font-bold text-[#00FF87]">
+                  <span>Explore Market Indicators</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* ALL PAGES INTERACTIVE PORTAL BLOCKS */}
-          <div className="space-y-6 pt-4">
+          <div className="space-y-6 pt-6">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
-                  All Portal Pages & Calculators
+                  All Portal Pages &amp; Calculators
                 </h2>
                 <p className="text-xs text-gray-400">
                   Click on any portal block below to access that specific page and interactive tool
                 </p>
               </div>
               <span className="text-xs font-semibold px-3 py-1 rounded-full bg-gray-800 text-[#00FF87] border border-[#00FF87]/30">
-                12 Modules Available
+                14 Modules Available
               </span>
             </div>
 

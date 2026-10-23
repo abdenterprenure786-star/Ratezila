@@ -15,6 +15,9 @@ import { VehicleTax } from './components/VehicleTax';
 import { ConstructionCost } from './components/ConstructionCost';
 import { MarketNews } from './components/MarketNews';
 import { AdvancedFinancialTools } from './components/AdvancedFinancialTools';
+import { FreelancerTaxCalculator } from './components/FreelancerTaxCalculator';
+import { PropertyTaxCalculator } from './components/PropertyTaxCalculator';
+import { MarketTrendIndicators } from './components/MarketTrendIndicators';
 import { RatesUpdaterModal } from './components/RatesUpdaterModal';
 import { ProModal } from './components/ProModal';
 import { RateZillaLogo } from './components/RateZillaLogo';
@@ -28,10 +31,54 @@ import {
 
 export function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
-  const [activeTab, setActiveTab] = useState<string>('home');
+  const [activeTab, setActiveTab] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname.toLowerCase();
+      if (path.includes('freelancer-tax')) return 'freelancer-tax';
+      if (path.includes('property-tax')) return 'property-tax';
+      if (path.includes('market-trend') || path.includes('market-indicator')) return 'market-indicators';
+      if (path.includes('advanced-tools')) return 'advanced-tools';
+    }
+    return 'home';
+  });
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
   const [isRatesUpdaterOpen, setIsRatesUpdaterOpen] = useState(false);
   const [isProModalOpen, setIsProModalOpen] = useState(false);
+
+  // Sync tab navigation with browser history
+  const handleNavigateTab = (tab: string) => {
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window !== 'undefined') {
+      if (tab === 'home') {
+        window.history.pushState({}, '', '/');
+      } else if (tab === 'freelancer-tax') {
+        window.history.pushState({}, '', '/freelancer-tax-calculator.html');
+      } else if (tab === 'property-tax') {
+        window.history.pushState({}, '', '/property-tax-calculator.html');
+      } else if (tab === 'market-indicators') {
+        window.history.pushState({}, '', '/market-trend-indicators.html');
+      }
+    }
+  };
+
+  // Browser back/forward navigation listener
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.toLowerCase();
+      if (path.includes('freelancer-tax')) {
+        setActiveTab('freelancer-tax');
+      } else if (path.includes('property-tax')) {
+        setActiveTab('property-tax');
+      } else if (path.includes('market-trend') || path.includes('market-indicator')) {
+        setActiveTab('market-indicators');
+      } else {
+        setActiveTab('home');
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Connectivity & Cache State
   const [isOffline, setIsOffline] = useState<boolean>(typeof navigator !== 'undefined' ? !navigator.onLine : false);
@@ -214,7 +261,7 @@ export function App() {
         onOpenProModal={() => setIsProModalOpen(true)}
         isOffline={isOffline}
         onRefreshRates={refreshRates}
-        onGoHome={() => setActiveTab('home')}
+        onGoHome={() => handleNavigateTab('home')}
       />
 
       {/* Connectivity Banner (Offline Mode Feedback) */}
@@ -229,7 +276,7 @@ export function App() {
       <main className="flex-1">
         {activeTab === 'home' && (
           <HomeHub
-            setActiveTab={setActiveTab}
+            setActiveTab={handleNavigateTab}
             goldRates={marketData.goldRates}
             silverRate={marketData.silverRate}
             fuelRates={marketData.fuelRates}
@@ -302,7 +349,29 @@ export function App() {
         )}
 
         {activeTab === 'news' && (
-          <MarketNews onBackToHome={() => setActiveTab('home')} />
+          <MarketNews onBackToHome={() => handleNavigateTab('home')} />
+        )}
+
+        {activeTab === 'freelancer-tax' && (
+          <FreelancerTaxCalculator
+            currencies={marketData.currencies}
+            onBackToHome={() => handleNavigateTab('home')}
+          />
+        )}
+
+        {activeTab === 'property-tax' && (
+          <PropertyTaxCalculator
+            onBackToHome={() => handleNavigateTab('home')}
+          />
+        )}
+
+        {activeTab === 'market-indicators' && (
+          <MarketTrendIndicators
+            goldRates={marketData.goldRates}
+            currencies={marketData.currencies}
+            fuelRates={marketData.fuelRates}
+            onBackToHome={() => handleNavigateTab('home')}
+          />
         )}
 
         {activeTab === 'advanced-tools' && (
@@ -310,7 +379,7 @@ export function App() {
             currencies={marketData.currencies}
             goldRates={marketData.goldRates}
             fuelRates={marketData.fuelRates}
-            onBackToHome={() => setActiveTab('home')}
+            onBackToHome={() => handleNavigateTab('home')}
           />
         )}
       </main>

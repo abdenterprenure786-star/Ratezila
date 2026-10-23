@@ -16,7 +16,10 @@ import {
   Moon,
   Sparkles,
   ExternalLink,
-  Share2
+  Share2,
+  Laptop,
+  TrendingUp,
+  Briefcase
 } from 'lucide-react';
 import { RateZillaLogo } from './RateZillaLogo';
 
@@ -154,12 +157,28 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
           color: 'text-pink-400 bg-pink-500/10'
         },
         {
-          id: 'advanced-tools',
-          label: 'Advanced Financial Tools',
-          urdu: 'جدید مالیاتی ٹولز و سگنلز',
-          desc: 'IT Exporter 154A Tax, Property 236K & Buying Power Signals',
-          icon: Sparkles,
+          id: 'freelancer-tax',
+          label: 'Freelancer IT Tax (154A)',
+          urdu: 'فری لانسر آئی ٹی ٹیکس',
+          desc: 'USD/EUR to PKR remittance, 0.25% PSEB vs 1% non-registered',
+          icon: Briefcase,
           color: 'text-[#00FF87] bg-[#00FF87]/10'
+        },
+        {
+          id: 'property-tax',
+          label: 'Property Tax & Stamp Duty',
+          urdu: 'جائیداد اور پلاٹ ٹیکس ڈیوٹی',
+          desc: 'FBR Section 236K, Provincial Stamp Duty & TMA fees',
+          icon: Building,
+          color: 'text-[#60EFFF] bg-[#60EFFF]/10'
+        },
+        {
+          id: 'market-indicators',
+          label: 'Buying Power & Market Signals',
+          urdu: 'مارکیٹ سگنلز و خریداری ٹائمنگ',
+          desc: 'Decision timing and volatility indicators for Gold, USD & Petrol',
+          icon: TrendingUp,
+          color: 'text-amber-400 bg-amber-500/10'
         }
       ]
     }

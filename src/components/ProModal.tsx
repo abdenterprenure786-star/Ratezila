@@ -59,7 +59,7 @@ export const ProModal: React.FC<ProModalProps> = ({ isOpen, onClose }) => {
           {/* Price Display */}
           <div className="pt-2">
             <div className="inline-block px-4 py-2 rounded-2xl bg-gray-900/90 border border-emerald-500/30">
-              <span className="text-3xl font-black text-[#00FF87] font-mono">Rs. 300</span>
+              <span className="price-amount text-3xl font-black text-[#00FF87]">Rs. 300</span>
               <span className="text-sm font-semibold text-gray-400 ml-1.5">/ month</span>
             </div>
           </div>

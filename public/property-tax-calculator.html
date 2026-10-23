@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Tax & Stamp Duty Estimator - RateZilla Pakistan</title>
+  <meta name="description" content="Calculate FBR Section 236K Advance Tax, Provincial Stamp Duty (Punjab, Sindh, KPK, ICT), and TMA fees for buying property in Pakistan." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    /* Body and Paragraph Typography */
+    body, p, span, input, select, button, li {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Headings, Titles, Logo & Numeric Prices */
+    h1, h2, h3, h4, .brand-title, .price-amount, .item-price, .pro-badge, .logo-text, .highlight-net .value, .amount, .value-verbalizer, .benchmark-val {
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    /* Paragraph readability tuning */
+    p {
+      line-height: 1.5;
+    }
+
+    body {
+      background-color: #0b0f19;
+      color: #f3f4f6;
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #1f2937;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #111827;
+      color: #e5e7eb;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 12px;
+      border: 1px solid #374151;
+      font-size: 13px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+    .back-btn:hover {
+      background: #1f2937;
+      border-color: #00FF87;
+      color: #00FF87;
+      transform: translateX(-2px);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(96, 239, 255, 0.12);
+      border: 1px solid rgba(96, 239, 255, 0.3);
+      color: #60EFFF;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: #60EFFF;
+      border-radius: 50%;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .hero-card {
+      background: linear-gradient(135deg, #111827 0%, #0d1624 100%);
+      border: 1px solid #1f2937;
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    .hero-card h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 12px 0 6px 0;
+      letter-spacing: -0.5px;
+    }
+    .hero-card h1 span {
+      background: linear-gradient(90deg, #00FF87, #60EFFF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .urdu-subtitle {
+      font-family: 'Noto Nastaliq Urdu', serif;
+      color: #00FF87;
+      font-size: 16px;
+      margin-bottom: 10px;
+      direction: rtl;
+    }
+    .hero-card p {
+      color: #9ca3af;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .calc-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+      .hero-card { padding: 24px; }
+      .calc-card { padding: 20px; }
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 700;
+      color: #d1d5db;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .value-verbalizer {
+      color: #00FF87;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    input[type="number"] {
+      width: 100%;
+      background: #030712;
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="number"]:focus {
+      border-color: #00FF87;
+    }
+    .preset-chips {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .chip {
+      background: #1f2937;
+      color: #9ca3af;
+      border: 1px solid #374151;
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .chip:hover {
+      background: #374151;
+      color: #ffffff;
+    }
+    .toggle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .toggle-grid-4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .toggle-card {
+      background: #030712;
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+    .toggle-card.active {
+      border-color: #60EFFF;
+      background: rgba(96, 239, 255, 0.08);
+      box-shadow: 0 0 12px rgba(96, 239, 255, 0.15);
+    }
+    .toggle-card.active.green {
+      border-color: #00FF87;
+      background: rgba(0, 255, 135, 0.08);
+      box-shadow: 0 0 12px rgba(0, 255, 135, 0.15);
+    }
+    .toggle-card .title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #ffffff;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .toggle-card .desc {
+      font-size: 11px;
+      color: #9ca3af;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .result-box {
+      background: #030712;
+      border: 1px solid #1f2937;
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .highlight-net {
+      background: linear-gradient(135deg, rgba(96,239,255,0.15), rgba(0,255,135,0.05));
+      border: 1px solid rgba(96, 239, 255, 0.4);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .highlight-net .label {
+      font-size: 11px;
+      font-weight: 800;
+      color: #60EFFF;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .highlight-net .value {
+      font-size: 30px;
+      font-weight: 800;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      margin: 6px 0 2px 0;
+    }
+    .highlight-net .sub {
+      font-size: 12px;
+      color: #00FF87;
+      font-weight: 600;
+    }
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #1f2937;
+      font-size: 13px;
+    }
+    .breakdown-row:last-child {
+      border-bottom: none;
+      padding-top: 14px;
+      font-weight: 800;
+      font-size: 15px;
+    }
+    .breakdown-row .name {
+      color: #9ca3af;
+    }
+    .breakdown-row .amount {
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+    .text-duty { color: #f59e0b; }
+    .text-total { color: #00FF87; }
+    .alert-box {
+      background: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 18px;
+      font-size: 12px;
+      color: #fecdd3;
+      line-height: 1.5;
+    }
+    .copy-btn {
+      width: 100%;
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 12px;
+      color: #00FF87;
+      padding: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      margin-top: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover {
+      background: #374151;
+      border-color: #00FF87;
+    }
+    .footer-note {
+      margin-top: 32px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Top Navigation Header with Back to Home -->
+    <div class="nav-header">
+      <a href="/" class="back-btn">
+        <span>← Back to Home</span>
+      </a>
+      <div class="badge">
+        <span class="pulse-dot"></span>
+        <span>Finance Act 2024-25 Sections 236K / 236C</span>
+      </div>
+    </div>
+
+    <!-- Main Page Title Header -->
+    <div class="hero-card">
+      <div class="badge">Tool 2 • Real Estate &amp; Transfer Duties</div>
+      <h1>Property Tax &amp; <span>Stamp Duty Estimator</span></h1>
+      <div class="urdu-subtitle">جائیداد اور پلاٹ کی خریداری پر ایف بی آر ایڈوانس ٹیکس و اسٹامپ ڈیوٹی</div>
+      <p>
+        Accurately calculate government transfer taxes for buying residential or commercial property in Pakistan. Computes FBR Section 236K Advance Tax, provincial Stamp Duty, and TMA transfer fees.
+      </p>
+    </div>
+
+    <!-- Interactive Calculator Card -->
+    <div class="calc-card">
+      <div class="grid">
+        <!-- Inputs -->
+        <div>
+          <div class="form-group">
+            <label>
+              <span>Property Value / Agreed Price (PKR)</span>
+              <span class="value-verbalizer" id="verbalizer">1.50 Crore</span>
+            </label>
+            <input type="number" id="priceInput" value="15000000" min="500000" step="500000" oninput="calculate()" />
+            <div class="preset-chips">
+              <span class="chip" onclick="setPrice(5000000)">50 Lakh</span>
+              <span class="chip" onclick="setPrice(10000000)">1 Crore</span>
+              <span class="chip" onclick="setPrice(15000000)">1.5 Crore</span>
+              <span class="chip" onclick="setPrice(25000000)">2.5 Crore</span>
+              <span class="chip" onclick="setPrice(50000000)">5 Crore</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><span>Province / Jurisdiction</span></label>
+            <div class="toggle-grid-4">
+              <div class="toggle-card active" id="provPunjab" onclick="setProvince('punjab')">
+                <span class="title">Punjab</span>
+                <span class="desc">1.0% Stamp</span>
+              </div>
+              <div class="toggle-card" id="provSindh" onclick="setProvince('sindh')">
+                <span class="title">Sindh</span>
+                <span class="desc">2.0% Stamp</span>
+              </div>
+              <div class="toggle-card" id="provKpk" onclick="setProvince('kpk')">
+                <span class="title">KPK</span>
+                <span class="desc">2.0% Stamp</span>
+              </div>
+              <div class="toggle-card" id="provIct" onclick="setProvince('ict')">
+                <span class="title">Islamabad (ICT)</span>
+                <span class="desc">1.5% Stamp</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><span>FBR Active Taxpayer Status (Section 236K)</span></label>
+            <div class="toggle-grid">
+              <div class="toggle-card active green" id="filerActive" onclick="setFiler('filer')">
+                <span class="title">Active Filer</span>
+                <span class="desc">2.00% Standard Rate</span>
+              </div>
+              <div class="toggle-card" id="filerNon" onclick="setFiler('non-filer')">
+                <span class="title">Non-Filer</span>
+                <span class="desc" id="nonFilerRateText">7.00% Surcharge Rate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Outputs -->
+        <div>
+          <div class="result-box">
+            <div class="highlight-net">
+              <div class="label">Total Acquisition Outlay (Property + Taxes)</div>
+              <div class="value" id="totalOutlay">Rs. 0</div>
+              <div class="sub" id="taxShare">Govt Taxes: Rs. 0 (0.0% of Price)</div>
+            </div>
+
+            <div class="breakdown-row">
+              <span class="name" id="fbrLabel">FBR Advance Tax (236K - 2%):</span>
+              <span class="amount text-duty" id="fbrTax">Rs. 0</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="name" id="stampLabel">Provincial Stamp Duty (1%):</span>
+              <span class="amount" id="stampDuty">Rs. 0</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="name">TMA Municipal Transfer Fee (1%):</span>
+              <span class="amount" id="tmaFee">Rs. 0</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="name">Registration &amp; Corporation Fee:</span>
+              <span class="amount" id="regFee">Rs. 0</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="name text-total">Total Govt Taxes Payable:</span>
+              <span class="amount text-total" id="totalTaxes">Rs. 0</span>
+            </div>
+
+            <div class="alert-box" id="taxNotice" style="display:none;">
+              ⚠️ <strong>Non-Filer Surcharge:</strong> Becoming a tax filer will reduce your Section 236K advance tax to 2%, saving you <strong id="filerSavings">Rs. 0</strong> on this transaction.
+            </div>
+
+            <button class="copy-btn" id="copyBtn" onclick="copyBreakdown()">📋 Copy Itemized Tax Breakdown</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      RateZilla Pakistan • Real-Time Financial Intelligence • Finance Act 2024-25 Sections 236K &amp; 236C
+    </div>
+  </div>
+
+  <script>
+    let currentProv = 'punjab';
+    let currentFiler = 'filer';
+
+    function formatVerbal(val) {
+      if (val >= 10000000) return (val / 10000000).toFixed(2) + ' Crore';
+      if (val >= 100000) return (val / 100000).toFixed(2) + ' Lakh';
+      return 'Rs. ' + val.toLocaleString();
+    }
+
+    function setPrice(val) {
+      document.getElementById('priceInput').value = val;
+      calculate();
+    }
+
+    function setProvince(prov) {
+      currentProv = prov;
+      ['punjab', 'sindh', 'kpk', 'ict'].forEach(p => {
+        const id = 'prov' + p.charAt(0).toUpperCase() + p.slice(1);
+        document.getElementById(id).classList.toggle('active', p === prov);
+      });
+      calculate();
+    }
+
+    function setFiler(status) {
+      currentFiler = status;
+      document.getElementById('filerActive').classList.toggle('active', status === 'filer');
+      document.getElementById('filerActive').classList.toggle('green', status === 'filer');
+      document.getElementById('filerNon').classList.toggle('active', status === 'non-filer');
+      calculate();
+    }
+
+    function calculate() {
+      const price = Math.max(0, parseFloat(document.getElementById('priceInput').value) || 0);
+      document.getElementById('verbalizer').innerText = formatVerbal(price);
+
+      // FBR 236K
+      let fbrRate = 0.02;
+      if (currentFiler === 'non-filer') {
+        fbrRate = price > 5000000 ? 0.07 : 0.05;
+        document.getElementById('nonFilerRateText').innerText = (fbrRate * 100).toFixed(2) + '% Surcharge Rate';
+      }
+      const fbrTax = price * fbrRate;
+
+      // Stamp Duty
+      const stampRates = { punjab: 0.01, sindh: 0.02, kpk: 0.02, ict: 0.015 };
+      const stampRate = stampRates[currentProv] || 0.01;
+      const stampDuty = price * stampRate;
+
+      // TMA Fee (1%)
+      const tmaFee = price * 0.01;
+
+      // Registration Fee
+      const regFee = Math.min(price * 0.01, 150000);
+
+      const totalTaxes = fbrTax + stampDuty + tmaFee + regFee;
+      const totalOutlay = price + totalTaxes;
+      const taxPercent = price > 0 ? ((totalTaxes / price) * 100).toFixed(1) : '0.0';
+
+      document.getElementById('totalOutlay').innerText = 'Rs. ' + Math.round(totalOutlay).toLocaleString();
+      document.getElementById('taxShare').innerText = 'Govt Taxes: Rs. ' + Math.round(totalTaxes).toLocaleString() + ' (' + taxPercent + '% of Price)';
+
+      document.getElementById('fbrLabel').innerText = 'FBR Advance Tax (236K - ' + (fbrRate * 100).toFixed(0) + '%):';
+      document.getElementById('fbrTax').innerText = 'Rs. ' + Math.round(fbrTax).toLocaleString();
+
+      document.getElementById('stampLabel').innerText = 'Provincial Stamp Duty (' + (stampRate * 100).toFixed(1) + '%):';
+      document.getElementById('stampDuty').innerText = 'Rs. ' + Math.round(stampDuty).toLocaleString();
+
+      document.getElementById('tmaFee').innerText = 'Rs. ' + Math.round(tmaFee).toLocaleString();
+      document.getElementById('regFee').innerText = 'Rs. ' + Math.round(regFee).toLocaleString();
+      document.getElementById('totalTaxes').innerText = 'Rs. ' + Math.round(totalTaxes).toLocaleString();
+
+      const notice = document.getElementById('taxNotice');
+      if (currentFiler === 'non-filer') {
+        const savings = fbrTax - (price * 0.02);
+        document.getElementById('filerSavings').innerText = 'Rs. ' + Math.round(savings).toLocaleString();
+        notice.style.display = 'block';
+      } else {
+        notice.style.display = 'none';
+      }
+    }
+
+    function copyBreakdown() {
+      const price = document.getElementById('priceInput').value;
+      const outlay = document.getElementById('totalOutlay').innerText;
+      const taxes = document.getElementById('totalTaxes').innerText;
+      const text = 'RateZilla Property Tax Summary:\nProperty Price: Rs. ' + Number(price).toLocaleString() + ' (' + formatVerbal(Number(price)) + ')\nProvince: ' + currentProv.toUpperCase() + '\nStatus: ' + currentFiler.toUpperCase() + '\nGovt Taxes: ' + taxes + '\nTotal Acquisition Outlay: ' + outlay;
+      navigator.clipboard.writeText(text);
+      const btn = document.getElementById('copyBtn');
+      btn.innerText = '✅ Breakdown Copied to Clipboard!';
+      setTimeout(() => { btn.innerText = '📋 Copy Itemized Tax Breakdown'; }, 2200);
+    }
+
+    // Run initial calculation
+    calculate();
+  </script>
+</body>
+</html>

@@ -35,7 +35,7 @@ export const Header: React.FC<HeaderProps> = ({
           {/* User Request: Button labeled '✨ PRO' directly under logo with neon green/cyan gradient */}
           <button
             onClick={onOpenProModal}
-            className="ml-14 sm:ml-16 inline-flex items-center gap-1 px-3 py-0.5 rounded-full bg-gradient-to-r from-[#00FF87] to-[#60EFFF] text-[#0b0f19] text-[11px] font-black tracking-wider uppercase shadow-[0_0_12px_rgba(0,255,135,0.35)] hover:shadow-[0_0_18px_rgba(96,239,255,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-[#00FF87]/40"
+            className="pro-badge ml-14 sm:ml-16 inline-flex items-center gap-1 px-3 py-0.5 rounded-full bg-gradient-to-r from-[#00FF87] to-[#60EFFF] text-[#0b0f19] text-[11px] font-black tracking-wider uppercase shadow-[0_0_12px_rgba(0,255,135,0.35)] hover:shadow-[0_0_18px_rgba(96,239,255,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-[#00FF87]/40"
             title="Upgrade to RateZilla PRO (Rs. 300 / month)"
           >
             <span>✨ PRO</span>

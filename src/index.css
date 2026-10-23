@@ -7,6 +7,36 @@
   }
 }
 
+/* ==================== GLOBAL TYPOGRAPHY RULES ==================== */
+/* Body and Paragraph Typography */
+body, p, span, input, select, button, li {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings, Titles, Logo & Numeric Prices */
+h1, h2, h3, h4, .brand-title, .price-amount, .item-price, .pro-badge, .logo-text {
+  font-family: 'Outfit', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Paragraph readability tuning */
+p {
+  line-height: 1.5;
+}
+
+/* Primary numbers and price values bold and sharp using 'Outfit' */
+.price-amount,
+.item-price,
+.benchmark-val,
+.highlight-net .value,
+.stat-value,
+.numeric-bold,
+.font-mono {
+  font-family: 'Outfit', 'JetBrains Mono', monospace;
+  letter-spacing: -0.02em;
+}
+
 /* ==================== AESTHETIC SCROLL REVEAL ANIMATION ==================== */
 /* Base State (Pehle elements chupe honge) */
 .reveal-element {

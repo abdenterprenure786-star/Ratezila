@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Freelancer & IT Export Tax Estimator - RateZilla Pakistan</title>
+  <meta name="description" content="Calculate net PKR income after Section 154A final tax (0.25% PSEB vs 1% Non-Registered) and bank wire / Payoneer fees for IT freelancers in Pakistan." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    /* Body and Paragraph Typography */
+    body, p, span, input, select, button, li {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Headings, Titles, Logo & Numeric Prices */
+    h1, h2, h3, h4, .brand-title, .price-amount, .item-price, .pro-badge, .logo-text, .highlight-net .value, .amount {
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: -0.02em;
+    }
+
+    /* Paragraph readability tuning */
+    p {
+      line-height: 1.5;
+    }
+
+    body {
+      background-color: #0b0f19;
+      color: #f3f4f6;
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #1f2937;
+    }
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #111827;
+      color: #e5e7eb;
+      text-decoration: none;
+      padding: 10px 18px;
+      border-radius: 12px;
+      border: 1px solid #374151;
+      font-size: 13px;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+    .back-btn:hover {
+      background: #1f2937;
+      border-color: #00FF87;
+      color: #00FF87;
+      transform: translateX(-2px);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 255, 135, 0.12);
+      border: 1px solid rgba(0, 255, 135, 0.3);
+      color: #00FF87;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background: #00FF87;
+      border-radius: 50%;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .hero-card {
+      background: linear-gradient(135deg, #111827 0%, #0d1624 100%);
+      border: 1px solid #1f2937;
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    .hero-card h1 {
+      font-size: 28px;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 12px 0 6px 0;
+      letter-spacing: -0.5px;
+    }
+    .hero-card h1 span {
+      background: linear-gradient(90deg, #00FF87, #60EFFF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .urdu-subtitle {
+      font-family: 'Noto Nastaliq Urdu', serif;
+      color: #00FF87;
+      font-size: 16px;
+      margin-bottom: 10px;
+      direction: rtl;
+    }
+    .hero-card p {
+      color: #9ca3af;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .calc-card {
+      background: #111827;
+      border: 1px solid #1f2937;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+      .hero-card { padding: 24px; }
+      .calc-card { padding: 20px; }
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #d1d5db;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .input-row {
+      display: flex;
+      gap: 10px;
+    }
+    input[type="number"] {
+      flex: 1;
+      background: #030712;
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="number"]:focus {
+      border-color: #00FF87;
+    }
+    select {
+      background: #030712;
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: #00FF87;
+      font-weight: 700;
+      font-size: 14px;
+      outline: none;
+      cursor: pointer;
+    }
+    .preset-chips {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .chip {
+      background: #1f2937;
+      color: #9ca3af;
+      border: 1px solid #374151;
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .chip:hover {
+      background: #374151;
+      color: #ffffff;
+    }
+    .toggle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .toggle-card {
+      background: #030712;
+      border: 1px solid #374151;
+      border-radius: 12px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+    .toggle-card.active {
+      border-color: #00FF87;
+      background: rgba(0, 255, 135, 0.08);
+      box-shadow: 0 0 12px rgba(0, 255, 135, 0.15);
+    }
+    .toggle-card .title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #ffffff;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .toggle-card .desc {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+    .result-box {
+      background: #030712;
+      border: 1px solid #1f2937;
+      border-radius: 16px;
+      padding: 24px;
+    }
+    .highlight-net {
+      background: linear-gradient(135deg, rgba(0,255,135,0.15), rgba(96,239,255,0.05));
+      border: 1px solid rgba(0, 255, 135, 0.4);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .highlight-net .label {
+      font-size: 11px;
+      font-weight: 800;
+      color: #00FF87;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .highlight-net .value {
+      font-size: 30px;
+      font-weight: 800;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      margin: 6px 0 2px 0;
+    }
+    .highlight-net .sub {
+      font-size: 12px;
+      color: #60EFFF;
+      font-weight: 600;
+    }
+    .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #1f2937;
+      font-size: 13px;
+    }
+    .breakdown-row:last-child {
+      border-bottom: none;
+      padding-top: 14px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .breakdown-row .name {
+      color: #9ca3af;
+    }
+    .breakdown-row .amount {
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+    }
+    .text-tax { color: #f59e0b; }
+    .text-fee { color: #f43f5e; }
+    .text-green { color: #00FF87; }
+    .pseb-alert {
+      background: rgba(0, 255, 135, 0.08);
+      border: 1px solid rgba(0, 255, 135, 0.3);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 18px;
+      font-size: 12px;
+      color: #e5e7eb;
+      line-height: 1.5;
+    }
+    .copy-btn {
+      width: 100%;
+      background: #1f2937;
+      border: 1px solid #374151;
+      border-radius: 12px;
+      color: #00FF87;
+      padding: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      margin-top: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .copy-btn:hover {
+      background: #374151;
+      border-color: #00FF87;
+    }
+    .footer-note {
+      margin-top: 32px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Top Navigation Header with Back to Home -->
+    <div class="nav-header">
+      <a href="/" class="back-btn">
+        <span>← Back to Home</span>
+      </a>
+      <div class="badge">
+        <span class="pulse-dot"></span>
+        <span>Section 154A Compliant</span>
+      </div>
+    </div>
+
+    <!-- Main Page Title Header -->
+    <div class="hero-card">
+      <div class="badge">Tool 1 • IT Exporter & Remote Worker</div>
+      <h1>Freelancer &amp; IT Export <span>Tax Estimator</span></h1>
+      <div class="urdu-subtitle">فری لانسر آئی ٹی ٹیکس اور ریمیٹنس کیلکولیٹر</div>
+      <p>
+        Accurately calculate your foreign currency conversion to Pakistani Rupee (PKR), final tax deduction under Section 154A of the Income Tax Ordinance 2001, and banking remittance spreads.
+      </p>
+    </div>
+
+    <!-- Interactive Calculator Card -->
+    <div class="calc-card">
+      <div class="grid">
+        <!-- Inputs -->
+        <div>
+          <div class="form-group">
+            <label>Monthly Foreign Income Amount</label>
+            <div class="input-row">
+              <input type="number" id="incomeInput" value="2500" min="100" step="50" oninput="calculate()" />
+              <select id="currencySelect" onchange="calculate()">
+                <option value="USD" selected>USD ($)</option>
+                <option value="EUR">EUR (€)</option>
+                <option value="GBP">GBP (£)</option>
+                <option value="AED">AED (د.إ)</option>
+              </select>
+            </div>
+            <div class="preset-chips">
+              <span class="chip" onclick="setIncome(1000)">$1,000</span>
+              <span class="chip" onclick="setIncome(2500)">$2,500</span>
+              <span class="chip" onclick="setIncome(5000)">$5,000</span>
+              <span class="chip" onclick="setIncome(10000)">$10,000</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>PSEB Registration Status (Section 154A)</label>
+            <div class="toggle-grid">
+              <div class="toggle-card active" id="psebRegistered" onclick="setPseb('registered')">
+                <span class="title">Active PSEB</span>
+                <span class="desc">0.25% Final Tax</span>
+              </div>
+              <div class="toggle-card" id="psebNonRegistered" onclick="setPseb('non-registered')">
+                <span class="title">Non-Registered</span>
+                <span class="desc">1.00% Final Tax</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Remittance / Gateway Channel</label>
+            <div class="toggle-grid">
+              <div class="toggle-card active" id="methodWire" onclick="setMethod('wire')">
+                <span class="title">Direct Wire (PRC)</span>
+                <span class="desc">~0.5% bank spread</span>
+              </div>
+              <div class="toggle-card" id="methodFintech" onclick="setMethod('fintech')">
+                <span class="title">Payoneer / Wise</span>
+                <span class="desc">~1.8% conversion</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Outputs -->
+        <div>
+          <div class="result-box">
+            <div class="highlight-net">
+              <div class="label">Final Net Take-Home Salary (PKR)</div>
+              <div class="value" id="netSalary">Rs. 0</div>
+              <div class="sub" id="effectiveRate">Effective Rate: Rs. 0.00 / USD</div>
+            </div>
+
+            <div class="breakdown-row">
+              <span class="name">Gross Income (PKR):</span>
+              <span class="amount" id="grossPkr">Rs. 0</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="name" id="taxLabel">Tax Deduction (0.25%):</span>
+              <span class="amount text-tax" id="taxDeducted">- Rs. 0</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="name" id="feeLabel">Estimated Banking Fee (0.5%):</span>
+              <span class="amount text-fee" id="bankFee">- Rs. 0</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="name text-green">Total Deductions:</span>
+              <span class="amount text-green" id="totalDeductions">Rs. 0</span>
+            </div>
+
+            <div class="pseb-alert" id="psebNotice">
+              💡 <strong>PSEB Registered Exporter:</strong> Enjoy 0.25% preferential final tax under Section 154A of Income Tax Ordinance 2001.
+            </div>
+
+            <button class="copy-btn" id="copyBtn" onclick="copyBreakdown()">📋 Copy Detailed Breakdown</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      RateZilla Pakistan • Real-Time Financial Intelligence • Section 154A Income Tax Ordinance 2001
+    </div>
+  </div>
+
+  <script>
+    const RATES = {
+      USD: 278.35,
+      EUR: 302.50,
+      GBP: 354.20,
+      AED: 75.80
+    };
+
+    let currentPseb = 'registered';
+    let currentMethod = 'wire';
+
+    function setIncome(val) {
+      document.getElementById('incomeInput').value = val;
+      calculate();
+    }
+
+    function setPseb(status) {
+      currentPseb = status;
+      document.getElementById('psebRegistered').classList.toggle('active', status === 'registered');
+      document.getElementById('psebNonRegistered').classList.toggle('active', status === 'non-registered');
+      calculate();
+    }
+
+    function setMethod(method) {
+      currentMethod = method;
+      document.getElementById('methodWire').classList.toggle('active', method === 'wire');
+      document.getElementById('methodFintech').classList.toggle('active', method === 'fintech');
+      calculate();
+    }
+
+    function calculate() {
+      const amount = Math.max(0, parseFloat(document.getElementById('incomeInput').value) || 0);
+      const currency = document.getElementById('currencySelect').value;
+      const rate = RATES[currency] || 278.35;
+
+      const gross = amount * rate;
+      const taxRate = currentPseb === 'registered' ? 0.0025 : 0.01;
+      const tax = gross * taxRate;
+
+      const feeRate = currentMethod === 'wire' ? 0.005 : 0.018;
+      const fee = gross * feeRate;
+
+      const net = gross - tax - fee;
+      const effective = amount > 0 ? (net / amount) : rate;
+
+      document.getElementById('netSalary').innerText = 'Rs. ' + Math.round(net).toLocaleString();
+      document.getElementById('effectiveRate').innerText = 'Effective Rate: Rs. ' + effective.toFixed(2) + ' / ' + currency;
+      document.getElementById('grossPkr').innerText = 'Rs. ' + Math.round(gross).toLocaleString();
+      document.getElementById('taxLabel').innerText = 'Section 154A Tax (' + (taxRate * 100).toFixed(2) + '%):';
+      document.getElementById('taxDeducted').innerText = '- Rs. ' + Math.round(tax).toLocaleString();
+      document.getElementById('feeLabel').innerText = 'Banking Fee (' + (feeRate * 100).toFixed(1) + '%):';
+      document.getElementById('bankFee').innerText = '- Rs. ' + Math.round(fee).toLocaleString();
+      document.getElementById('totalDeductions').innerText = 'Rs. ' + Math.round(tax + fee).toLocaleString();
+
+      const savings = gross * (0.01 - 0.0025);
+      const noticeEl = document.getElementById('psebNotice');
+      if (currentPseb === 'registered') {
+        noticeEl.innerHTML = '🛡️ <strong>Active PSEB Status:</strong> You save <strong>Rs. ' + Math.round(savings).toLocaleString() + '</strong> monthly (Rs. ' + Math.round(savings * 12).toLocaleString() + '/year) with 0.25% preferential tax!';
+      } else {
+        noticeEl.innerHTML = '⚠️ <strong>Non-Registered Exporter:</strong> Registering with PSEB lowers your tax from 1% to 0.25%, saving you <strong>Rs. ' + Math.round(savings).toLocaleString() + '</strong> monthly.';
+      }
+    }
+
+    function copyBreakdown() {
+      const net = document.getElementById('netSalary').innerText;
+      const gross = document.getElementById('grossPkr').innerText;
+      const tax = document.getElementById('taxDeducted').innerText;
+      const fee = document.getElementById('bankFee').innerText;
+      const text = 'RateZilla Freelancer IT Tax Breakdown:\nGross Income: ' + gross + '\nTax Deducted: ' + tax + '\nBanking Fees: ' + fee + '\nNet Take-Home: ' + net;
+      navigator.clipboard.writeText(text);
+      const btn = document.getElementById('copyBtn');
+      btn.innerText = '✅ Breakdown Copied to Clipboard!';
+      setTimeout(() => { btn.innerText = '📋 Copy Detailed Breakdown'; }, 2200);
+    }
+
+    // Run initial calculation
+    calculate();
+  </script>
+</body>
+</html>

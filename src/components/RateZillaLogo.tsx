@@ -139,9 +139,9 @@ export const RateZillaLogo: React.FC<RateZillaLogoProps> = ({
       {/* Brand Typography Lockup */}
       {showText && (
         <div className="flex flex-col justify-center">
-          <div className={`flex items-baseline font-black tracking-tight leading-none ${iconDimensions.textSize}`}>
-            <span className="text-white drop-shadow-sm font-sans tracking-tight">Rate</span>
-            <span className="bg-gradient-to-r from-[#00FF87] via-[#22D3EE] to-[#60EFFF] bg-clip-text text-transparent ml-0.5 font-sans drop-shadow">
+          <div className={`flex items-baseline font-black tracking-tight leading-none logo-text brand-title ${iconDimensions.textSize}`}>
+            <span className="text-white drop-shadow-sm tracking-tight">Rate</span>
+            <span className="bg-gradient-to-r from-[#00FF87] via-[#22D3EE] to-[#60EFFF] bg-clip-text text-transparent ml-0.5 drop-shadow">
               Zilla
             </span>
           </div>
