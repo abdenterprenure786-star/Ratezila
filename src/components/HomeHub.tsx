@@ -380,6 +380,45 @@ export const HomeHub: React.FC<HomeHubProps> = ({
             </button>
           </div>
 
+          {/* User Requested: Quick Jump Direct Pills to the 3 Individual Pages */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-1 max-w-3xl">
+            <button
+              onClick={() => {
+                setActiveTab('freelancer-tax');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-3.5 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/35 border border-[#00FF87]/50 text-[#00FF87] text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 backdrop-blur-md shadow-md"
+            >
+              <Briefcase className="w-3.5 h-3.5" />
+              <span>1. IT Remittance &amp; Tax (154A)</span>
+              <ArrowRight className="w-3 h-3 text-[#00FF87]" />
+            </button>
+
+            <button
+              onClick={() => {
+                setActiveTab('property-tax');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-3.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/35 border border-[#60EFFF]/50 text-[#60EFFF] text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 backdrop-blur-md shadow-md"
+            >
+              <Building className="w-3.5 h-3.5" />
+              <span>2. Property Tax &amp; Stamp Duty</span>
+              <ArrowRight className="w-3 h-3 text-[#60EFFF]" />
+            </button>
+
+            <button
+              onClick={() => {
+                setActiveTab('market-indicators');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="px-3.5 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-500/50 text-amber-300 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 backdrop-blur-md shadow-md"
+            >
+              <TrendingUp className="w-3.5 h-3.5" />
+              <span>3. Buying Power &amp; Market Signals</span>
+              <ArrowRight className="w-3 h-3 text-amber-400" />
+            </button>
+          </div>
+
           {/* Interactive Parallax Background Changer Modal (Apni image ka link lagayein) */}
           {showImagePicker && (
             <div className="w-full max-w-xl mx-auto mt-4 p-5 rounded-2xl bg-gray-900/95 border border-emerald-500/40 backdrop-blur-xl shadow-2xl text-left text-gray-200 animate-in fade-in zoom-in-95 duration-200">
@@ -453,6 +492,238 @@ export const HomeHub: React.FC<HomeHubProps> = ({
       {/* ==================== NEECHE WALA NORMAL SECTION ==================== */}
       <div id="market-normal-section" className="normal-section">
         <div className="max-w-7xl mx-auto space-y-12">
+          {/* ========================================================================= */}
+          {/* 3 SEPARATE MAIN PAGE BLOCKS (REQUESTED BY USER)                           */}
+          {/* 1. IT Remittance & Tax (154A)                                             */}
+          {/* 2. Property Tax & Stamp Duty                                              */}
+          {/* 3. Buying Power & Market Signals                                          */}
+          {/* ========================================================================= */}
+          <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-800 pb-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-[#00FF87]/20 to-[#60EFFF]/10 border border-[#00FF87]/40 text-[#00FF87] text-xs font-bold uppercase tracking-wider mb-2">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>3 Dedicated Utility Pages</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center gap-2.5">
+                  <span>Specialized Financial Portals</span>
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-400">
+                  Click on any block below to open its dedicated individual page and calculation engine
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 text-xs text-[#00FF87] font-mono bg-emerald-500/10 px-3.5 py-1.5 rounded-full border border-emerald-500/20">
+                <span className="w-2 h-2 rounded-full bg-[#00FF87] animate-pulse" />
+                <span>3 Standalone Pages Available</span>
+              </div>
+            </div>
+
+            {/* 3 DISTINCT CLICKABLE CARD BLOCKS */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* BLOCK 1: 1. IT Remittance & Tax (154A) */}
+              <div
+                onClick={() => {
+                  setActiveTab('freelancer-tax');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="group relative p-6 sm:p-7 rounded-3xl bg-[#111827] hover:bg-[#131d31] border-2 border-emerald-500/30 hover:border-[#00FF87] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_35px_rgba(0,255,135,0.2)] cursor-pointer flex flex-col justify-between reveal-element delay-1"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-black font-mono px-3 py-1 rounded-full bg-[#00FF87]/15 text-[#00FF87] border border-[#00FF87]/40">
+                      PAGE 01
+                    </span>
+                    <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-gray-800 text-gray-300 border border-gray-700/80">
+                      Section 154A
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="p-3.5 rounded-2xl bg-[#00FF87]/15 text-[#00FF87] border border-[#00FF87]/30 group-hover:scale-110 transition-transform">
+                      <Briefcase className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-black text-white group-hover:text-[#00FF87] transition-colors leading-tight">
+                        1. IT Remittance &amp; Tax (154A)
+                      </h3>
+                      <span className="text-xs text-[#00FF87] font-serif block mt-0.5">
+                        فری لانسر آئی ٹی ایکسپورٹ ٹیکس
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                    Calculate net take-home PKR income from USD/EUR/GBP remittances after Section 154A final tax (0.25% PSEB vs 1% Non-Registered) and banking fee spreads.
+                  </p>
+
+                  <div className="space-y-2 pt-3 border-t border-gray-800 text-xs">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">PSEB Tax Rate:</span>
+                      <span className="font-bold text-[#00FF87] font-mono">0.25% Final Tax</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Non-Registered:</span>
+                      <span className="font-semibold text-amber-400 font-mono">1.00% Standard</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Channels:</span>
+                      <span className="text-gray-300 font-mono">Wire (0.5%) vs Payoneer (1.8%)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-5 mt-5 border-t border-gray-800/80">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveTab('freelancer-tax');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="w-full py-2.5 px-4 rounded-xl bg-[#00FF87]/15 group-hover:bg-[#00FF87] text-[#00FF87] group-hover:text-[#0b0f19] font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 border border-[#00FF87]/30 group-hover:border-transparent cursor-pointer"
+                  >
+                    <span>Open Page: IT Remittance &amp; Tax (154A)</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </div>
+
+              {/* BLOCK 2: 2. Property Tax & Stamp Duty */}
+              <div
+                onClick={() => {
+                  setActiveTab('property-tax');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="group relative p-6 sm:p-7 rounded-3xl bg-[#111827] hover:bg-[#131d31] border-2 border-cyan-500/30 hover:border-[#60EFFF] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_35px_rgba(96,239,255,0.2)] cursor-pointer flex flex-col justify-between reveal-element delay-2"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-black font-mono px-3 py-1 rounded-full bg-[#60EFFF]/15 text-[#60EFFF] border border-[#60EFFF]/40">
+                      PAGE 02
+                    </span>
+                    <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-gray-800 text-gray-300 border border-gray-700/80">
+                      FBR 236K / 236C
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="p-3.5 rounded-2xl bg-[#60EFFF]/15 text-[#60EFFF] border border-[#60EFFF]/30 group-hover:scale-110 transition-transform">
+                      <Building className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-black text-white group-hover:text-[#60EFFF] transition-colors leading-tight">
+                        2. Property Tax &amp; Stamp Duty
+                      </h3>
+                      <span className="text-xs text-[#60EFFF] font-serif block mt-0.5">
+                        جائیداد پر ٹیکس اور اسٹامپ ڈیوٹی
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                    Estimate total acquisition outlay: Section 236K Advance Tax, provincial Stamp Duty for Punjab/Sindh/KPK/ICT, TMA transfer fees and registration charges.
+                  </p>
+
+                  <div className="space-y-2 pt-3 border-t border-gray-800 text-xs">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Filer Advance Tax:</span>
+                      <span className="font-bold text-[#60EFFF] font-mono">2.00% under 236K</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Non-Filer Surcharge:</span>
+                      <span className="font-semibold text-rose-400 font-mono">5.00% to 7.00%</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Stamp Duty:</span>
+                      <span className="text-gray-300 font-mono">1% (Punjab) - 2% (Sindh/KPK)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-5 mt-5 border-t border-gray-800/80">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveTab('property-tax');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="w-full py-2.5 px-4 rounded-xl bg-[#60EFFF]/15 group-hover:bg-[#60EFFF] text-[#60EFFF] group-hover:text-[#0b0f19] font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 border border-[#60EFFF]/30 group-hover:border-transparent cursor-pointer"
+                  >
+                    <span>Open Page: Property Tax &amp; Stamp Duty</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </div>
+
+              {/* BLOCK 3: 3. Buying Power & Market Signals */}
+              <div
+                onClick={() => {
+                  setActiveTab('market-indicators');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="group relative p-6 sm:p-7 rounded-3xl bg-[#111827] hover:bg-[#131d31] border-2 border-amber-500/30 hover:border-amber-400 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_35px_rgba(245,158,11,0.2)] cursor-pointer flex flex-col justify-between reveal-element delay-3"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-black font-mono px-3 py-1 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/40">
+                      PAGE 03
+                    </span>
+                    <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-gray-800 text-gray-300 border border-gray-700/80">
+                      Market Intelligence
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <div className="p-3.5 rounded-2xl bg-amber-500/15 text-amber-400 border border-amber-500/30 group-hover:scale-110 transition-transform">
+                      <TrendingUp className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-black text-white group-hover:text-amber-400 transition-colors leading-tight">
+                        3. Buying Power &amp; Market Signals
+                      </h3>
+                      <span className="text-xs text-amber-300 font-serif block mt-0.5">
+                        مارکیٹ سگنلز اور خریداری ٹائمنگ
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+                    Live market volatility ratings (0-100), timing recommendation badges ("Favorable to Buy", "Hold"), and 30-day directional trends for Gold (24K), USD/PKR and Petroleum.
+                  </p>
+
+                  <div className="space-y-2 pt-3 border-t border-gray-800 text-xs">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Gold 24K Signal:</span>
+                      <span className="font-bold text-amber-400 font-mono">Hold / Wait for Dip</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">USD / PKR Signal:</span>
+                      <span className="font-bold text-[#00FF87] font-mono">Favorable to Buy</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-400">Petrol Fortnight:</span>
+                      <span className="font-semibold text-rose-400 font-mono">High Volatility (74/100)</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-5 mt-5 border-t border-gray-800/80">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveTab('market-indicators');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="w-full py-2.5 px-4 rounded-xl bg-amber-500/15 group-hover:bg-amber-400 text-amber-300 group-hover:text-[#0b0f19] font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 border border-amber-500/30 group-hover:border-transparent cursor-pointer"
+                  >
+                    <span>Open Page: Buying Power &amp; Market Signals</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* QUICK LIVE MARKET SUMMARY CARDS WITH SHARING */}
           <div className="space-y-4">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
@@ -661,196 +932,6 @@ export const HomeHub: React.FC<HomeHubProps> = ({
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* ========================================================================= */}
-          {/* DEDICATED SECTION: ADVANCED UTILITY CALCULATORS (3 DISTINCT CLICKABLE BLOCKS) */}
-          {/* ========================================================================= */}
-          <div className="space-y-5 pt-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-800/80 pb-4">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00FF87]/15 border border-[#00FF87]/30 text-[#00FF87] text-xs font-bold uppercase tracking-wider mb-2">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Institutional Finance &amp; Decision Intelligence</span>
-                </div>
-                <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2.5">
-                  <span>Advanced Utility Calculators</span>
-                  <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-[#00FF87] border border-[#00FF87]/30">
-                    3 Dedicated Pages
-                  </span>
-                </h2>
-                <p className="text-xs sm:text-sm text-gray-400">
-                  Precision tax estimators for Pakistani IT freelancers and real estate transactions, plus live market purchasing power timing indicators
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2 text-xs text-gray-400">
-                <span className="w-2 h-2 rounded-full bg-[#00FF87] animate-pulse" />
-                <span>Updated for 2025-26 Tax Laws</span>
-              </div>
-            </div>
-
-            {/* 3 DISTINCT CLICKABLE CARD BLOCKS */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* BLOCK 1: 💼 FREELANCER IT TAX ESTIMATOR */}
-              <div
-                onClick={() => {
-                  setActiveTab('freelancer-tax');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="group relative p-6 rounded-3xl bg-[#111827] hover:bg-[#131d31] border border-emerald-500/30 hover:border-[#00FF87] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer flex flex-col justify-between reveal-element delay-1"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="p-3.5 rounded-2xl bg-gradient-to-br from-[#00FF87]/20 to-[#60EFFF]/10 border border-[#00FF87]/30 text-[#00FF87] group-hover:scale-110 transition-transform">
-                      <Briefcase className="w-6 h-6" />
-                    </div>
-                    <span className="text-[11px] font-black px-2.5 py-1 rounded-full bg-[#00FF87]/15 text-[#00FF87] border border-[#00FF87]/40 shadow-sm">
-                      Section 154A
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-black text-white group-hover:text-[#00FF87] transition-colors flex items-center gap-1.5">
-                      <span>Freelancer IT Tax Estimator</span>
-                    </h3>
-                    <span className="text-xs text-[#00FF87] font-serif block mt-0.5">
-                      فری لانسر آئی ٹی ایکسپورٹ ٹیکس کیلکولیٹر
-                    </span>
-                    <p className="text-xs text-gray-300 leading-relaxed mt-2.5">
-                      Calculate net take-home PKR income from USD/EUR/GBP remittances after Section 154A final tax (0.25% PSEB vs 1% Non-Registered) and bank wire/fintech fee deductions.
-                    </p>
-                  </div>
-
-                  {/* Highlight Stats / Feature Pills */}
-                  <div className="space-y-1.5 pt-2 border-t border-gray-800">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-400">PSEB Tax Rate:</span>
-                      <span className="font-bold text-[#00FF87] font-mono">0.25% Final Tax</span>
-                    </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-400">Non-Registered:</span>
-                      <span className="font-semibold text-amber-400 font-mono">1.00% Standard</span>
-                    </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-400">Supported Currencies:</span>
-                      <span className="text-gray-300 font-mono">USD, EUR, GBP, AED</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 mt-4 border-t border-gray-800/80 flex items-center justify-between text-xs font-bold text-[#00FF87]">
-                  <span>Launch IT Calculator</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
-                </div>
-              </div>
-
-              {/* BLOCK 2: 🏠 PROPERTY TAX & STAMP DUTY */}
-              <div
-                onClick={() => {
-                  setActiveTab('property-tax');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="group relative p-6 rounded-3xl bg-[#111827] hover:bg-[#131d31] border border-cyan-500/30 hover:border-[#60EFFF] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-cyan-500/10 cursor-pointer flex flex-col justify-between reveal-element delay-2"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="p-3.5 rounded-2xl bg-gradient-to-br from-[#60EFFF]/20 to-blue-500/10 border border-[#60EFFF]/30 text-[#60EFFF] group-hover:scale-110 transition-transform">
-                      <Building className="w-6 h-6" />
-                    </div>
-                    <span className="text-[11px] font-black px-2.5 py-1 rounded-full bg-[#60EFFF]/15 text-[#60EFFF] border border-[#60EFFF]/40 shadow-sm">
-                      FBR 236K / 236C
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-black text-white group-hover:text-[#60EFFF] transition-colors flex items-center gap-1.5">
-                      <span>Property Tax &amp; Stamp Duty</span>
-                    </h3>
-                    <span className="text-xs text-[#60EFFF] font-serif block mt-0.5">
-                      جائیداد پر ٹیکس اور اسٹامپ ڈیوٹی
-                    </span>
-                    <p className="text-xs text-gray-300 leading-relaxed mt-2.5">
-                      Estimate total acquisition outlay and government duties: Section 236K Advance Tax, provincial Stamp Duty for Punjab/Sindh/KPK/ICT, TMA transfer fee &amp; registration.
-                    </p>
-                  </div>
-
-                  {/* Highlight Stats / Feature Pills */}
-                  <div className="space-y-1.5 pt-2 border-t border-gray-800">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-400">Filer Advance Tax:</span>
-                      <span className="font-bold text-[#60EFFF] font-mono">2.00% under 236K</span>
-                    </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-400">Non-Filer Surcharge:</span>
-                      <span className="font-semibold text-rose-400 font-mono">5.00% to 7.00%</span>
-                    </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-400">Provincial Stamp:</span>
-                      <span className="text-gray-300 font-mono">1% (Punjab) - 2% (Sindh)</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 mt-4 border-t border-gray-800/80 flex items-center justify-between text-xs font-bold text-[#60EFFF]">
-                  <span>Launch Property Calculator</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
-                </div>
-              </div>
-
-              {/* BLOCK 3: 📈 BUYING POWER & MARKET INDICATORS */}
-              <div
-                onClick={() => {
-                  setActiveTab('market-indicators');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }}
-                className="group relative p-6 rounded-3xl bg-[#111827] hover:bg-[#131d31] border border-[#00FF87]/30 hover:border-[#00FF87] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer flex flex-col justify-between reveal-element delay-3"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="p-3.5 rounded-2xl bg-gradient-to-br from-[#00FF87]/20 to-amber-500/10 border border-[#00FF87]/30 text-[#00FF87] group-hover:scale-110 transition-transform">
-                      <TrendingUp className="w-6 h-6" />
-                    </div>
-                    <span className="text-[11px] font-black px-2.5 py-1 rounded-full bg-emerald-500/15 text-[#00FF87] border border-[#00FF87]/40 shadow-sm">
-                      Live Market Signals
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-lg font-black text-white group-hover:text-[#00FF87] transition-colors flex items-center gap-1.5">
-                      <span>Buying Power &amp; Market Indicators</span>
-                    </h3>
-                    <span className="text-xs text-[#00FF87] font-serif block mt-0.5">
-                      مارکیٹ سگنلز اور خریداری کے انڈیکیٹرز
-                    </span>
-                    <p className="text-xs text-gray-300 leading-relaxed mt-2.5">
-                      Live market volatility ratings, price pressure analysis, smart timing recommendation badges ("Favorable to Buy", "Hold"), and 30-day directional overviews for Gold, USD and Petrol.
-                    </p>
-                  </div>
-
-                  {/* Highlight Stats / Feature Pills */}
-                  <div className="space-y-1.5 pt-2 border-t border-gray-800">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-400">Gold 24K Signal:</span>
-                      <span className="font-bold text-amber-400 font-mono">Hold / Wait for Dip</span>
-                    </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-400">USD / PKR Signal:</span>
-                      <span className="font-bold text-[#00FF87] font-mono">Favorable to Buy</span>
-                    </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-400">Petrol Fortnight:</span>
-                      <span className="font-semibold text-rose-400 font-mono">High Volatility (74/100)</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-4 mt-4 border-t border-gray-800/80 flex items-center justify-between text-xs font-bold text-[#00FF87]">
-                  <span>Explore Market Indicators</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </div>
               </div>
             </div>
