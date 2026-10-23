@@ -152,6 +152,14 @@ export const SideDrawer: React.FC<SideDrawerProps> = ({
           desc: 'Official OGRA notifications and bullion updates',
           icon: Newspaper,
           color: 'text-pink-400 bg-pink-500/10'
+        },
+        {
+          id: 'advanced-tools',
+          label: 'Advanced Financial Tools',
+          urdu: 'جدید مالیاتی ٹولز و سگنلز',
+          desc: 'IT Exporter 154A Tax, Property 236K & Buying Power Signals',
+          icon: Sparkles,
+          color: 'text-[#00FF87] bg-[#00FF87]/10'
         }
       ]
     }

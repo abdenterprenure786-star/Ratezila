@@ -14,7 +14,9 @@ import { MandiRates } from './components/MandiRates';
 import { VehicleTax } from './components/VehicleTax';
 import { ConstructionCost } from './components/ConstructionCost';
 import { MarketNews } from './components/MarketNews';
+import { AdvancedFinancialTools } from './components/AdvancedFinancialTools';
 import { RatesUpdaterModal } from './components/RatesUpdaterModal';
+import { ProModal } from './components/ProModal';
 import { RateZillaLogo } from './components/RateZillaLogo';
 import { Menu, Sparkles, Share2 } from 'lucide-react';
 import {
@@ -29,6 +31,7 @@ export function App() {
   const [activeTab, setActiveTab] = useState<string>('home');
   const [isSideDrawerOpen, setIsSideDrawerOpen] = useState(false);
   const [isRatesUpdaterOpen, setIsRatesUpdaterOpen] = useState(false);
+  const [isProModalOpen, setIsProModalOpen] = useState(false);
 
   // Connectivity & Cache State
   const [isOffline, setIsOffline] = useState<boolean>(typeof navigator !== 'undefined' ? !navigator.onLine : false);
@@ -208,6 +211,7 @@ export function App() {
         theme={theme}
         onToggleTheme={toggleTheme}
         onOpenRatesUpdater={() => setIsRatesUpdaterOpen(true)}
+        onOpenProModal={() => setIsProModalOpen(true)}
         isOffline={isOffline}
         onRefreshRates={refreshRates}
         onGoHome={() => setActiveTab('home')}
@@ -299,6 +303,15 @@ export function App() {
 
         {activeTab === 'news' && (
           <MarketNews onBackToHome={() => setActiveTab('home')} />
+        )}
+
+        {activeTab === 'advanced-tools' && (
+          <AdvancedFinancialTools
+            currencies={marketData.currencies}
+            goldRates={marketData.goldRates}
+            fuelRates={marketData.fuelRates}
+            onBackToHome={() => setActiveTab('home')}
+          />
         )}
       </main>
 
@@ -408,6 +421,12 @@ export function App() {
         fuelRates={marketData.fuelRates}
         currencies={marketData.currencies}
         onSaveManualRates={handleSaveManualRates}
+      />
+
+      {/* RateZilla PRO Modal */}
+      <ProModal
+        isOpen={isProModalOpen}
+        onClose={() => setIsProModalOpen(false)}
       />
     </div>
   );

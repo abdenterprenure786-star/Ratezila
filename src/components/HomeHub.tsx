@@ -259,6 +259,18 @@ export const HomeHub: React.FC<HomeHubProps> = ({
       accent: 'pink',
       gradient: 'from-pink-500/20 via-rose-500/10 to-transparent',
       borderColor: 'border-pink-500/30 hover:border-pink-400'
+    },
+    {
+      id: 'advanced-tools',
+      title: 'Advanced Financial Tools & Signals',
+      titleUrdu: 'جدید مالیاتی ٹولز و مارکیٹ سگنلز',
+      desc: 'Freelancer IT export 154A remittance tax estimator, FBR 236K property duty calculator & Buying Power indicators for Gold, USD and Fuel.',
+      stat: 'IT Tax: 0.25% vs 1% | Property 236K',
+      icon: Sparkles,
+      badge: 'New Institutional Tools',
+      accent: 'emerald',
+      gradient: 'from-emerald-500/20 via-cyan-500/10 to-transparent',
+      borderColor: 'border-[#00FF87]/40 hover:border-[#00FF87]'
     }
   ];
 
@@ -627,97 +639,6 @@ export const HomeHub: React.FC<HomeHubProps> = ({
             </div>
           </div>
 
-          {/* ==================== USER'S MINIMAL DESIGN WIREFRAME CARD ==================== */}
-          <div className="flex justify-center py-4">
-            <div className="wireframe-card reveal-element shadow-2xl">
-              {/* Navbar Component */}
-              <nav className="navbar flex items-center gap-6 mb-8 text-[#0a192f] dark:text-[#f3eae1] font-medium text-base">
-                <button
-                  onClick={() => scrollToContent()}
-                  className="hover:opacity-75 transition-opacity cursor-pointer font-bold"
-                >
-                  Home
-                </button>
-                <button
-                  onClick={() => setActiveTab('gold')}
-                  className="hover:opacity-75 transition-opacity cursor-pointer"
-                >
-                  Sarafa Gold
-                </button>
-                <button
-                  onClick={() => setActiveTab('solar')}
-                  className="hover:opacity-75 transition-opacity cursor-pointer"
-                >
-                  Solar Utility
-                </button>
-                <button
-                  onClick={() => setActiveTab('tax')}
-                  className="hover:opacity-75 transition-opacity cursor-pointer"
-                >
-                  FBR Tax
-                </button>
-              </nav>
-
-              {/* Main Content Layout Section */}
-              <div className="main-grid grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                {/* LEFT SIDE: Ahista se load hoga (delay-1) */}
-                <div className="left-col flex flex-col gap-5 reveal-element delay-1">
-                  {/* SVG Graphic Vector matching the mountains vector graphic placeholder box structure */}
-                  <svg className="image-placeholder-box" viewBox="0 0 350 180" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100%" height="100%" fill="none" />
-                    <polygon
-                      points="10,180 110,80 190,150 290,60 340,180"
-                      fill="#84b4e7"
-                      stroke="#0a192f"
-                      strokeWidth="2"
-                      strokeLinejoin="round"
-                    />
-                    <polygon
-                      points="10,180 110,80 180,140 130,180"
-                      fill="#6ba4df"
-                      stroke="#0a192f"
-                      strokeWidth="2"
-                      strokeLinejoin="round"
-                    />
-                    <circle cx="270" cy="80" r="20" fill="#84b4e7" stroke="#0a192f" strokeWidth="2" />
-                    <rect width="100%" height="100%" fill="none" stroke="#0a192f" strokeWidth="2" rx="12" />
-                  </svg>
-
-                  <button
-                    onClick={() => setActiveTab('gold')}
-                    className="learn-more-btn"
-                  >
-                    Learn more
-                  </button>
-                </div>
-
-                {/* RIGHT SIDE: Left side ke thori der baad load hoga (delay-2) */}
-                <div className="right-col flex flex-col justify-start pt-2 reveal-element delay-2">
-                  <h2 className="text-4xl sm:text-5xl font-black text-[#0a192f] dark:text-white leading-tight mb-4">
-                    Minimal<br />Design
-                  </h2>
-                  <p className="text-base text-[#0a192f]/90 dark:text-gray-300 leading-relaxed">
-                    RateZilla delivers precision Pakistan market analytics and 11 financial calculators wrapped inside a clean, distraction-free aesthetic framework.
-                  </p>
-                </div>
-              </div>
-
-              {/* BOTTOM LINES: Sab se aakhir mein load honge (delay-3) */}
-              <div className="bottom-lines-grid grid grid-cols-1 md:grid-cols-2 gap-8 reveal-element delay-3">
-                <div className="lines-group">
-                  <div className="wire-line full" />
-                  <div className="wire-line full" />
-                  <div className="wire-line short" />
-                </div>
-                <div className="lines-group">
-                  <div className="wire-line full" />
-                  <div className="wire-line mid" />
-                  <div className="wire-line short" />
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* ALL PAGES INTERACTIVE PORTAL BLOCKS */}
           <div className="space-y-6 pt-4">
             <div className="flex items-center justify-between">
@@ -729,8 +650,8 @@ export const HomeHub: React.FC<HomeHubProps> = ({
                   Click on any portal block below to access that specific page and interactive tool
                 </p>
               </div>
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-gray-800 text-gray-300 border border-gray-700">
-                11 Modules Available
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-gray-800 text-[#00FF87] border border-[#00FF87]/30">
+                12 Modules Available
               </span>
             </div>
 

@@ -7,6 +7,7 @@ interface HeaderProps {
   theme: 'dark' | 'light';
   onToggleTheme: () => void;
   onOpenRatesUpdater: () => void;
+  onOpenProModal: () => void;
   isOffline: boolean;
   onRefreshRates: () => void;
   onGoHome: () => void;
@@ -17,16 +18,28 @@ export const Header: React.FC<HeaderProps> = ({
   theme,
   onToggleTheme,
   onOpenRatesUpdater,
+  onOpenProModal,
   isOffline,
   onRefreshRates,
   onGoHome
 }) => {
   return (
-    <header className="sticky top-0 z-40 backdrop-blur-md bg-[#0b0f19]/80 dark:bg-[#0b0f19]/90 border-b border-gray-800/80 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
-        {/* Brand Logo */}
-        <div onClick={onGoHome} className="cursor-pointer flex items-center gap-3">
-          <RateZillaLogo size="md" />
+    <header className="sticky top-0 z-40 backdrop-blur-md bg-[#0b0f19]/85 dark:bg-[#0b0f19]/95 border-b border-gray-800/80 transition-colors">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 min-h-[72px] flex items-center justify-between">
+        {/* Brand Logo & PRO Button Directly Under Logo */}
+        <div className="flex flex-col items-start gap-1">
+          <div onClick={onGoHome} className="cursor-pointer flex items-center gap-3">
+            <RateZillaLogo size="md" />
+          </div>
+
+          {/* User Request: Button labeled '✨ PRO' directly under logo with neon green/cyan gradient */}
+          <button
+            onClick={onOpenProModal}
+            className="ml-14 sm:ml-16 inline-flex items-center gap-1 px-3 py-0.5 rounded-full bg-gradient-to-r from-[#00FF87] to-[#60EFFF] text-[#0b0f19] text-[11px] font-black tracking-wider uppercase shadow-[0_0_12px_rgba(0,255,135,0.35)] hover:shadow-[0_0_18px_rgba(96,239,255,0.6)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-[#00FF87]/40"
+            title="Upgrade to RateZilla PRO (Rs. 300 / month)"
+          >
+            <span>✨ PRO</span>
+          </button>
         </div>
 
         {/* Actions Bar */}
